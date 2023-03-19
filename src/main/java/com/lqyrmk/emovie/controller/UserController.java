@@ -113,25 +113,25 @@ public class UserController {
      * @param: [user, newPassword]
      * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.User>
      **/
-    @PutMapping("/modify/password")
-    @ApiOperation(value = "用户修改密码接口")
+//    @PutMapping("/modify/password")
+//    @ApiOperation(value = "用户修改密码接口")
 //    @ApiImplicitParams({
 //            @ApiImplicitParam(name = "user", value = "需要修改密码的用户信息", required = true)
 //    })
-    public Result<User> modifyPassword(@RequestBody User user, @RequestParam("newPassword") String newPassword) {
-        // 获取输入的用户名和密码
-        String username = user.getUsername();
-        String password = user.getPassword();
-
-        // 根据用户名和密码查询用户信息
-        User actualUser = userService.login(username, password);
-
-        // 判断输入的密码是否正确
-        if (actualUser == null) {
-            return Result.error("密码错误");
-        }
-        // 用户修改密码成功
-        userService.modifyPassword(username, newPassword);
-        return Result.success(user);
-    }
+//    public Result<User> modifyPassword(@RequestBody User user, @RequestParam("newPassword") String newPassword) {
+//        // 获取输入的用户名和密码
+//        String username = user.getUsername();
+//        String password = user.getPassword();
+//
+//        // 根据用户名和密码查询用户信息
+//        User actualUser = userService.login(username, password);
+//
+//        // 判断输入的密码是否正确
+//        if (actualUser == null) {
+//            return Result.error("密码错误");
+//        }
+//        // 用户修改密码成功
+//        userService.modifyPassword(username, newPassword);
+//        return Result.success(user);
+//    }
 }
