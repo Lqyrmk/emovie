@@ -106,6 +106,13 @@ public class UserController {
     }
 
 
+    /**
+     * @description: 用户修改密码接口（还没完成）
+     * @author: YuanmingLiu
+     * @date: 2023/3/19 23:56
+     * @param: [user, newPassword]
+     * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.User>
+     **/
     @PutMapping("/modify/password")
     @ApiOperation(value = "用户修改密码接口")
 //    @ApiImplicitParams({
