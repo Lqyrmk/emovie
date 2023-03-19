@@ -107,7 +107,7 @@ public class UserController {
 
 
     /**
-     * @description: 用户修改密码接口（还没完成）
+     * @description: 用户修改密码接口 还没完成
      * @author: YuanmingLiu
      * @date: 2023/3/19 23:56
      * @param: [user, newPassword]
