@@ -3,6 +3,8 @@ package com.lqyrmk.emovie.mapper;
 import com.lqyrmk.emovie.entity.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * @Description
  * @Author YuanmingLiu
@@ -64,4 +66,8 @@ public interface UserMapper {
 
     @Update("update user set password=#{newPassword} where username=#{username}")
     void updatePassword(@Param("username")String username, @Param("newPassword")String newPassword);
+
+    @Select("select * from user")
+    List<User> getAll();
+
 }

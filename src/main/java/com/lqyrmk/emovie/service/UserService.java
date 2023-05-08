@@ -2,6 +2,8 @@ package com.lqyrmk.emovie.service;
 
 import com.lqyrmk.emovie.entity.User;
 
+import java.util.List;
+
 /**
  * @Description
  * @Author YuanmingLiu
@@ -56,4 +58,6 @@ public interface UserService {
 
 
     void modifyPassword(String username, String newPassword);
+
+    List<User> findAll();
 }

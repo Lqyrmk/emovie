@@ -6,6 +6,8 @@ import com.lqyrmk.emovie.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Description
  * @Author YuanmingLiu
@@ -46,6 +48,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void modifyPassword(String username, String newPassword) {
         userMapper.updatePassword(username, newPassword);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userMapper.getAll();
     }
 
 }
