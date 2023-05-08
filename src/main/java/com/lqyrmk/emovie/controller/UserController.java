@@ -144,23 +144,5 @@ public class UserController {
 //        return Result.success(user);
 //    }
 
-    /**
-     * @description: 用户评分
-     * @author: Limo
-     * @date: 2023/4/1 15:39
-     * @param: [com.lqyrmk.emovie.entity.Ratings]
-     * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.Ratings>
-     */
-    @PostMapping("/rating")
-    @ApiOperation(value = "用户评分接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "rating", value = "用户评分信息", required = true)
-    })
-    public Result<Ratings> addRating(@RequestBody Ratings ratings) {
-        if (ratingsService.existsRating(ratings)) {
-            return Result.error("评分已存在");
-        }
-        ratingsService.insertRating(ratings);
-        return Result.success(ratings);
-    }
+
 }

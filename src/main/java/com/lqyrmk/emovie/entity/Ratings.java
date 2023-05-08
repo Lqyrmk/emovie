@@ -23,7 +23,7 @@ public class Ratings {
     @ApiModelProperty("评分")
     private Integer rating;
 
-    @ApiModelProperty("评分")
+    @ApiModelProperty("评分时间戳")
     private Integer timestamp;
 
 }

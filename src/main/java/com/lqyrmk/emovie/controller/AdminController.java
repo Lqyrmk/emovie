@@ -73,39 +73,4 @@ public class AdminController {
         return Result.success(admin);
     }
 
-
-    /**
-     * @description: 增加电影
-     * @author: Limo
-     * @date: 2023/4/1 16:50
-     * @param: [com.lqyrmk.emovie.entity.Movie]
-     * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.Movie>
-     */
-    @PostMapping("/addmovie")
-    @ApiOperation(value = "增加电影")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "movie", value = "电影信息", required = true)
-    })
-    public Result<Movie> addMovie(@RequestBody Movie movie){
-        movieService.insertMovie(movie);
-        return Result.success(movie);
-    }
-
-
-    /**
-     * @description: 增加电影类目
-     * @author: Limo
-     * @date: 2023/4/1 17:07
-     * @param: [com.lqyrmk.emovie.entity.Genres]
-     * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.Genres>
-     */
-    @PostMapping("/addgenre")
-    @ApiOperation(value = "增加电影类目")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "genre", value = "类目信息", required = true)
-    })
-    public Result<Genres> addGenre(@RequestBody Genres genres){
-        genresService.insertGenre(genres);
-        return Result.success(genres);
-    }
 }
