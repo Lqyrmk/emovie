@@ -5,7 +5,7 @@
 
 <mapper namespace="com.lqyrmk.emovie.mapper.UserMapper">
 
-<!--    User getUserByCondition(User user);-->
+    <!--User getUserByCondition(User user);-->
 <!--    <select id="getEmpByCondition" resultType="com.lqyrmk.emovie.entity.User">-->
 <!--        select * from user-->
 <!--        <where>-->
