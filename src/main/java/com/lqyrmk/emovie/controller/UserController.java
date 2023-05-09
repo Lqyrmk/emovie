@@ -63,7 +63,7 @@ public class UserController {
 
         // 登录成功，将用户id存入session中
         session.setAttribute("loginUser", user.getUserId());
-        return Result.success(actualUser);
+        return Result.success(actualUser, "登录成功！");
     }
 
     /**
@@ -78,7 +78,7 @@ public class UserController {
     public Result<String> logout(HttpSession session) {
         // 清空session中的登录用户
         session.removeAttribute("loginUser");
-        return Result.success("已退出登录");
+        return Result.success(null, "已退出登录");
     }
 
     /**
@@ -111,7 +111,7 @@ public class UserController {
         }
         // 用户可被注册
         userService.registerUser(user);
-        return Result.success(user);
+        return Result.success(user, "注册成功！");
     }
 
 

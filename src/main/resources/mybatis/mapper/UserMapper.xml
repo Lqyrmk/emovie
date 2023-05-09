@@ -5,21 +5,9 @@
 
 <mapper namespace="com.lqyrmk.emovie.mapper.UserMapper">
 
-    <!--User getUserByCondition(User user);-->
-<!--    <select id="getEmpByCondition" resultType="com.lqyrmk.emovie.entity.User">-->
-<!--        select * from user-->
-<!--        <where>-->
-<!--            <if test="username != null and username != ''">-->
-<!--                username = #{username}-->
-<!--            </if>-->
-<!--            <if test="email != null and email != ''">-->
-<!--                or email = #{email}-->
-<!--            </if>-->
-<!--            <if test="phone != null and phone != ''">-->
-<!--                or phone = #{phone}-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </select>-->
-
+    <!--void addUser(User user);-->
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="userId">
+        insert into user(`username`, `password`, `email`, `gender`, `phone`) values (#{username}, #{password}, #{email}, #{gender}, #{phone})
+    </insert>
 
 </mapper>

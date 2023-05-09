@@ -39,7 +39,7 @@ public class RatingsController {
     @PostMapping
     @ApiOperation(value = "用户评分接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "rating", value = "用户评分信息", required = true)
+            @ApiImplicitParam(name = "ratings", value = "用户评分信息", required = true)
     })
     public Result<Ratings> addRating(@RequestBody Ratings ratings) {
         if (ratingsService.existsRating(ratings)) {

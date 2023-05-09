@@ -31,6 +31,14 @@ public class Result<T> {
         return result;
     }
 
+    public static <T> Result<T> success(T object, String msg) {
+        Result<T> result = new Result<>();
+        result.data = object;
+        result.msg = msg;
+        result.code = 1;
+        return result;
+    }
+
     public static <T> Result<T> error(String msg) {
         Result result = new Result();
         result.msg = msg;

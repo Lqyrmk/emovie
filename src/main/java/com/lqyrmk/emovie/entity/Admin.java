@@ -1,5 +1,7 @@
 package com.lqyrmk.emovie.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,9 +15,12 @@ import lombok.Data;
 
 @ApiModel("管理员")
 @Data
+@TableName("admin")
 public class Admin {
+
     @ApiModelProperty("管理员id")
-    private Integer adminId;
+    @TableId
+    private Long adminId;
 
     @ApiModelProperty("管理员用户名")
     private String name;

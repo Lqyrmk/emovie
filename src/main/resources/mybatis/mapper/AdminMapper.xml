@@ -5,17 +5,5 @@
 
 <mapper namespace="com.lqyrmk.emovie.mapper.AdminMapper">
 
-    <!--    查询管理员-->
-    <select id="getAdminByName" resultType="com.lqyrmk.emovie.entity.Admin">
-        select * from admin
-        where name = #{name};
-    </select>
-
-    <!--    增加管理员-->
-    <insert id="addAdmin">
-        insert into admin(name, password)
-        values(#{name},  #{password});
-    </insert>
-
 
 </mapper>

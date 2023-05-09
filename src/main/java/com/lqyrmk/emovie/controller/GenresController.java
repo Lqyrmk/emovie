@@ -38,7 +38,7 @@ public class GenresController {
     @PostMapping
     @ApiOperation(value = "添加电影类目")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "genre", value = "类目信息", required = true)
+            @ApiImplicitParam(name = "genres", value = "类目信息", required = true)
     })
     public Result<Genres> addGenres(@RequestBody Genres genres){
         genresService.insertGenre(genres);

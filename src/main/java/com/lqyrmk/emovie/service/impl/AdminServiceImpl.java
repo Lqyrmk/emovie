@@ -1,5 +1,6 @@
 package com.lqyrmk.emovie.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lqyrmk.emovie.entity.Admin;
 import com.lqyrmk.emovie.mapper.AdminMapper;
 import com.lqyrmk.emovie.service.AdminService;
@@ -13,18 +14,8 @@ import org.springframework.stereotype.Service;
  * @Version 1.0.0
  */
 @Service
-public class AdminServiceImpl implements AdminService {
+public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
 
-    @Override
-    public boolean existsAdminName(String name) {
-        return (adminMapper.getAdminByName(name)!=null);
-    }
-
-    @Override
-    public Admin insertAdmin(Admin admin) {
-        adminMapper.addAdmin(admin);
-        return admin;
-    }
 }

@@ -1,7 +1,9 @@
 package com.lqyrmk.emovie.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lqyrmk.emovie.entity.Admin;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @Auther: Limo
@@ -11,8 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public interface AdminMapper {
+public interface AdminMapper extends BaseMapper<Admin> {
 
-    Admin getAdminByName(String name);
-    void addAdmin(Admin admin);
 }

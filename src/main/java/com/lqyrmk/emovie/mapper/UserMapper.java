@@ -61,7 +61,7 @@ public interface UserMapper {
      * @param: [user]
      * @return: void
      **/
-    @Insert("insert into user values (null, #{username}, #{password}, #{email}, #{gender}, #{phone})")
+//    @Insert("insert into user values (null, #{username}, #{password}, #{email}, #{gender}, #{phone})")
     void addUser(User user);
 
     @Update("update user set password=#{newPassword} where username=#{username}")
