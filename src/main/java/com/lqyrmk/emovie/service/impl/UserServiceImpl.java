@@ -1,5 +1,6 @@
 package com.lqyrmk.emovie.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lqyrmk.emovie.entity.User;
 import com.lqyrmk.emovie.mapper.UserMapper;
 import com.lqyrmk.emovie.service.UserService;
@@ -14,7 +15,7 @@ import java.util.List;
  * @Date 2023/3/18 16:48
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
     private UserMapper userMapper;

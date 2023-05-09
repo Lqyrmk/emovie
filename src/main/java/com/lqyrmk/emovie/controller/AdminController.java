@@ -54,8 +54,7 @@ public class AdminController {
         String adminName = admin.getName();
         String password = DigestUtils.md5DigestAsHex(admin.getPassword().getBytes());
 
-
-        // 根据管理员账号和密码查询用户信息
+        // 根据管理员账号和密码查询管理员信息
         LambdaQueryWrapper<Admin> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Admin::getName, adminName).eq(Admin::getPassword, password);
 
@@ -67,7 +66,7 @@ public class AdminController {
         }
 
         // 登录成功，将管理员id存入session中
-        session.setAttribute("loginAdmin", admin.getAdminId());
+        session.setAttribute("loginAdmin", actualAdmin.getAdminId());
         return Result.success(actualAdmin, "登录成功！");
     }
 

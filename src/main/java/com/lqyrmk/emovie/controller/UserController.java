@@ -1,5 +1,7 @@
 package com.lqyrmk.emovie.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.Ratings;
 import com.lqyrmk.emovie.entity.User;
@@ -11,10 +13,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description
@@ -30,11 +34,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/findAll")
-    public List<User> find() {
-        return userService.findAll();
+    @GetMapping
+    @ApiOperation(value = "查询所有用户接口")
+    @ApiImplicitParams({
+    })
+    public Result<List<User>> getAllUsers() {
+        return Result.success(userService.list(null));
     }
-    private RatingsService ratingsService;
 
     /**
      * @description: 用户登录
@@ -51,10 +57,13 @@ public class UserController {
     public Result<User> login(HttpSession session, @RequestBody User user) {
         // 获取输入的用户名和密码
         String username = user.getUsername();
-        String password = user.getPassword();
+        String password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
 
         // 根据用户名和密码查询用户信息
-        User actualUser = userService.login(username, password);
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, username).eq(User::getPassword, password);
+
+        User actualUser = userService.getOne(queryWrapper);
 
         // 判断是否存在该用户
         if (actualUser == null) {
@@ -62,7 +71,7 @@ public class UserController {
         }
 
         // 登录成功，将用户id存入session中
-        session.setAttribute("loginUser", user.getUserId());
+        session.setAttribute("loginUser", actualUser.getUserId());
         return Result.success(actualUser, "登录成功！");
     }
 
@@ -94,55 +103,69 @@ public class UserController {
             @ApiImplicitParam(name = "user", value = "用户注册信息", required = true)
     })
     public Result<User> register(@RequestBody User user) {
+        // md5加密
+        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+
         // 查询是否存在相同的用户名
-        String username = user.getUsername();
-        if (userService.existsName(username)) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, user.getUsername());
+        if (userService.getOne(queryWrapper) != null) {
             return Result.error("用户名已存在");
         }
         // 查询邮箱是否已被绑定
-        String email = user.getEmail();
-        if (userService.existsEmail(email)) {
+        LambdaQueryWrapper<User> queryWrapper2 = new LambdaQueryWrapper<>();
+        queryWrapper2.eq(User::getEmail, user.getEmail());
+        if (userService.getOne(queryWrapper2) != null) {
             return Result.error("该邮箱已绑定其他账号");
         }
         // 查询手机号是否已被绑定
-        String phone = user.getPhone();
-        if (userService.existsPhone(phone)) {
+        LambdaQueryWrapper<User> queryWrapper3 = new LambdaQueryWrapper<>();
+        queryWrapper3.eq(User::getPhone, user.getPhone());
+        if (userService.getOne(queryWrapper3) != null) {
             return Result.error("该手机号已绑定其他账号");
         }
         // 用户可被注册
-        userService.registerUser(user);
+        userService.save(user);
         return Result.success(user, "注册成功！");
     }
 
 
     /**
-     * @description: 用户修改密码接口 还没完成
+     * @description: 用户修改密码接口
      * @author: YuanmingLiu
      * @date: 2023/3/19 23:56
      * @param: [user, newPassword]
      * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.User>
      **/
-//    @PutMapping("/modify/password")
-//    @ApiOperation(value = "用户修改密码接口")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "user", value = "需要修改密码的用户信息", required = true)
-//    })
-//    public Result<User> modifyPassword(@RequestBody User user, @RequestParam("newPassword") String newPassword) {
-//        // 获取输入的用户名和密码
-//        String username = user.getUsername();
-//        String password = user.getPassword();
-//
-//        // 根据用户名和密码查询用户信息
-//        User actualUser = userService.login(username, password);
-//
-//        // 判断输入的密码是否正确
-//        if (actualUser == null) {
-//            return Result.error("密码错误");
-//        }
-//        // 用户修改密码成功
-//        userService.modifyPassword(username, newPassword);
-//        return Result.success(user);
-//    }
+    @PutMapping("/modifyPwd")
+    @ApiOperation(value = "用户修改密码接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user", value = "需要修改密码的用户信息", required = true)
+    })
+    public Result<Map<String, Object>> modifyPassword(@RequestBody Map<String, Object> userMap) {
+        // 用户名
+        String username= (String) userMap.get("username");
+        // 原密码
+        String oldPassword = DigestUtils.md5DigestAsHex(((String) userMap.get("password")).getBytes());
+        // 新密码
+        String newPassword = DigestUtils.md5DigestAsHex(((String) userMap.get("newPassword")).getBytes());
+
+        // 根据用户名和密码查询用户信息
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, username).eq(User::getPassword, oldPassword);
+
+        // 判断输入的用户名或密码是否正确
+        if (userService.getOne(queryWrapper) == null) {
+            return Result.error("用户名或密码错误");
+        }
+
+        // 修改密码
+        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(User::getUsername, username).eq(User::getPassword, oldPassword)
+                .set(User::getPassword, newPassword);
+        userService.update(updateWrapper);
+        return Result.success(null, "密码修改成功！");
+    }
 
 
 }
