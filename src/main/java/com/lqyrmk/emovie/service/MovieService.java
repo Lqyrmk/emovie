@@ -1,6 +1,7 @@
 package com.lqyrmk.emovie.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.lqyrmk.emovie.entity.Movie;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +11,7 @@ import org.springframework.stereotype.Service;
  * @Description: MovieService
  * @Version 1.0.0
  */
-public interface MovieService {
-
-    /**
-     * @description: 判断电影是否存在
-     * @author: Limo
-     * @date: 2023/4/1 16:21
-     * @param: [com.lqyrmk.emovie.entity.Movie]
-     * @return: boolean
-     */
-//    public boolean existsMovie(Movie movie);
+public interface MovieService extends IService<Movie> {
 
     /**
      * @description: 增加电影

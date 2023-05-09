@@ -1,15 +1,9 @@
 package com.lqyrmk.emovie.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.Admin;
-import com.lqyrmk.emovie.entity.Genres;
-import com.lqyrmk.emovie.entity.Movie;
-import com.lqyrmk.emovie.entity.User;
 import com.lqyrmk.emovie.service.AdminService;
-import com.lqyrmk.emovie.service.GenresService;
-import com.lqyrmk.emovie.service.MovieService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

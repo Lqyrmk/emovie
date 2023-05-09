@@ -1,8 +1,12 @@
 package com.lqyrmk.emovie.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @Auther: Limo
@@ -12,42 +16,30 @@ import lombok.Data;
  */
 @ApiModel("电影")
 @Data
+@TableName("movie")
 public class Movie {
+
     @ApiModelProperty("电影id")
-    private Integer movieId;
+    @TableId
+    private Long movieId;
 
-    @ApiModelProperty("电影分级")
-    private String adult;
-
-    @ApiModelProperty("电影预算")
-    private String budget;
-
-    @ApiModelProperty("电影主页")
-    private String homepage;
-
-    @ApiModelProperty("default")
-    private String imdbId;
-
-    @ApiModelProperty("原语言")
-    private String origLang;
+    @ApiModelProperty("电影名")
+    private String title;
 
     @ApiModelProperty("电影原名")
-    private String origTitle;
+    private String originalTitle;
+
+    @ApiModelProperty("制作国家")
+    private List<MovieCountry> movieCountryList;
+
+    @ApiModelProperty("电影原语言")
+    private String originalLanguage;
+
+    @ApiModelProperty("电影标语")
+    private String tagline;
 
     @ApiModelProperty("电影概述")
     private String overview;
-
-    @ApiModelProperty("电影热度")
-    private String popularity;
-
-    @ApiModelProperty("default")
-    private String posterPath;
-
-    @ApiModelProperty("上映时间")
-    private String releaseDate;
-
-    @ApiModelProperty("电影收入")
-    private String revenue;
 
     @ApiModelProperty("电影时长")
     private String runtime;
@@ -55,18 +47,36 @@ public class Movie {
     @ApiModelProperty("电影状态")
     private String status;
 
-    @ApiModelProperty("电影标语")
-    private String tagline;
+    @ApiModelProperty("上映时间")
+    private String releaseDate;
 
-    @ApiModelProperty("电影名")
-    private String title;
+    @ApiModelProperty("电影主页")
+    private String homepage;
 
-    @ApiModelProperty("default")
-    private String video;
+    @ApiModelProperty("电影热度")
+    private String popularity;
+
+    @ApiModelProperty("电影收入")
+    private String revenue;
+
+    @ApiModelProperty("电影分级")
+    private String adult;
+
+    @ApiModelProperty("电影预算")
+    private String budget;
 
     @ApiModelProperty("电影平均评分")
     private String voteAverage;
 
     @ApiModelProperty("电影评分人数")
     private String voteCount;
+
+    @ApiModelProperty("default")
+    private String imdbId;
+
+    @ApiModelProperty("default")
+    private String posterPath;
+
+    @ApiModelProperty("default")
+    private String video;
 }

@@ -1,5 +1,6 @@
 package com.lqyrmk.emovie.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lqyrmk.emovie.entity.Movie;
 import org.apache.ibatis.annotations.*;
 
@@ -11,7 +12,7 @@ import org.apache.ibatis.annotations.*;
  */
 
 @Mapper
-public interface MovieMapper {
+public interface MovieMapper extends BaseMapper<Movie> {
 
     void addMovie(Movie movie);
 }
