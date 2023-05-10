@@ -1,5 +1,6 @@
 package com.lqyrmk.emovie.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.Genre;
 import com.lqyrmk.emovie.service.GenreService;
@@ -44,11 +45,18 @@ public class GenreController {
     @PostMapping
     @ApiOperation("添加电影类目")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "genres", value = "类目信息", required = true)
+            @ApiImplicitParam(name = "genre", value = "类目信息", required = true)
     })
-    public Result<Genre> addGenres(@RequestBody Genre genres){
-        genresService.insertGenre(genres);
-        return Result.success(genres);
+    public Result<Genre> addGenres(@RequestBody Genre genre){
+        // 查询类目是否存在
+        LambdaQueryWrapper<Genre> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Genre::getGenreName, genre.getGenreName());
+        if (genresService.getOne(queryWrapper) != null) {
+            return Result.error("类目已存在，添加失败！");
+        }
+        // 类目不存在则保存类目
+        genresService.save(genre);
+        return Result.success(genre, "添加成功！");
     }
 
 }
