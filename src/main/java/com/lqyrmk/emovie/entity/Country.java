@@ -23,7 +23,7 @@ public class Country {
 
     @ApiModelProperty("iso_3166_1")
     @TableField("iso_3166_1")
-    private String iso_3166_1;
+    private String iso;
 
     @ApiModelProperty("国家名")
     @TableField("country_name")
