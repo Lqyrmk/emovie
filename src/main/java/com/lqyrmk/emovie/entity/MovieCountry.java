@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Description 电影-国家对应关系
@@ -12,6 +14,8 @@ import lombok.Data;
  * @Date 2023/5/9 21:11
  */
 @ApiModel("电影-国家对应关系")
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @TableName("movie_country")
 public class MovieCountry {
@@ -24,7 +28,7 @@ public class MovieCountry {
     private Long movieId;
 
     @ApiModelProperty("国家")
-//    private Long countryId;
+    private Long countryId;
     //1
     private Country country;
 

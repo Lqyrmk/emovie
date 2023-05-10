@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.Country;
 import com.lqyrmk.emovie.entity.Movie;
+import com.lqyrmk.emovie.entity.MovieCountry;
+import com.lqyrmk.emovie.service.MovieCountryService;
 import com.lqyrmk.emovie.service.MovieService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -14,10 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Description
@@ -32,6 +31,9 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
+
+    @Autowired
+    private MovieCountryService movieCountryService;
 
 //    @GetMapping
 //    @ApiOperation("查询所有电影")
@@ -83,10 +85,13 @@ public class MovieController {
     })
     public Result<Map<String, Object>> addMovie(@RequestBody Map<String, Object> movieMap) {
 
-        // 获取list对象
-        List<Integer> countryIdList = (List<Integer>) movieMap.get("countryIdList");
-        System.out.println("countryIdList = " + countryIdList);
-        countryIdList.forEach(System.out::println);
+        // 获取制片国家id构成的list对象
+//        List<Long> countryIdList = (List<Long>) movieMap.get("countryIdList");
+
+        String countryIdListJsonStr = JSONObject.toJSONString(movieMap.get("countryIdList"));
+        List<Long> countryIdList = JSONObject.parseArray(countryIdListJsonStr, Long.class);
+//        System.out.println("countryIdList = " + countryIdList);
+//        countryIdList.forEach(System.out::println);
 
         // 获取movie对象
         String movieJsonStr = JSONObject.toJSONString(movieMap.get("movie"));
@@ -97,6 +102,17 @@ public class MovieController {
 
         // 添加电影信息
         movieService.save(movie);
+        // 建立电影和国家的联系
+        List<MovieCountry> movieCountryList = new ArrayList<>();
+        for (Long countryId : countryIdList) {
+            MovieCountry movieCountry = new MovieCountry();
+            // 电影id
+            movieCountry.setMovieId(movie.getMovieId());
+            // 国家id
+            movieCountry.setCountryId(countryId);
+            movieCountryList.add(movieCountry);
+        }
+        movieCountryService.saveOrUpdateBatch(movieCountryList);
 
         Map<String, Object> map = new HashMap<>();
         map.put("countryIdList", countryIdList);
