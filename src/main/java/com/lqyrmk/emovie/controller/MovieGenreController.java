@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,9 +43,11 @@ public class MovieGenreController {
         // 查询电影
         LambdaQueryWrapper<Movie> movieLambdaQueryWrapper = new LambdaQueryWrapper<>();
         movieLambdaQueryWrapper.eq(Movie::getTitle, movieTitle);
-        Movie movie = movieService.getOne(movieLambdaQueryWrapper);
+        movieLambdaQueryWrapper.select(Movie::getMovieId, Movie::getTitle);
+        List<Map<String, Object>> movieList = movieService.listMaps(movieLambdaQueryWrapper);
+        System.out.println("movieList = " + movieList);
 
-        if (movie == null) {
+        if (movieList.isEmpty()) {
             return Result.error("该电影不存在");
         }
 
@@ -58,7 +61,7 @@ public class MovieGenreController {
         }
 
         // 添加电影到类目中
-        MovieGenre movieGenre = new MovieGenre(movie.getMovieId(), genre.getGenreId());
+        MovieGenre movieGenre = new MovieGenre((Long) movieList.get(0).get("movie_id"), genre.getGenreId());
         movieGenreService.save(movieGenre);
 
         return Result.success(null, "添加成功！");

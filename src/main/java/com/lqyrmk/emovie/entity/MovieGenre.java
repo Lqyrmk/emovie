@@ -16,14 +16,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@TableName("movie_genres")
+@TableName("movie_genre")
 public class MovieGenre {
 
     @ApiModelProperty("电影id")
     private Long movieId;
 
     @ApiModelProperty("类目id")
-    private Long genresId;
+    private Long genreId;
 
 
 }
