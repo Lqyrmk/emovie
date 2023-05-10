@@ -47,7 +47,7 @@ public class Movie {
     @ApiModelProperty("电影状态")
     private String status;
 
-    @ApiModelProperty("上映时间")
+    @ApiModelProperty("发行时间")
     private String releaseDate;
 
     @ApiModelProperty("电影主页")

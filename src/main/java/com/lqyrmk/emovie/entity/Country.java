@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @Description
  * @Author YuanmingLiu
@@ -28,5 +30,8 @@ public class Country {
     @ApiModelProperty("国家名")
     @TableField("country_name")
     private String countryName;
+
+//    @ApiModelProperty("对应电影")
+//    private List<MovieCountry> movieCountryList;
 
 }

@@ -5,11 +5,114 @@
 
 <mapper namespace="com.lqyrmk.emovie.mapper.MovieMapper">
 
-<!--    增加电影-->
+    <!--    增加电影-->
     <insert id="addMovie">
-        insert into movie(adult, budget, homepage, imdb_id, original_language, original_title, overview, popularity, poster_path, release_date, revenue, runtime, status, tagline, title, video, vote_average, vote_count)
-        values(#{adult}, #{budget}, #{homepage}, #{imdbId}, #{origLang}, #{origTitle}, #{overview}, #{popularity}, #{posterPath}, #{releaseDate}, #{revenue}, #{runtime}, #{status}, #{tagline}, #{title}, #{video}, #{voteAverage}, #{voteCount} );
+        insert into movie(adult, budget, homepage, imdb_id, original_language, original_title, overview, popularity,
+                          poster_path, release_date, revenue, runtime, status, tagline, title, video, vote_average,
+                          vote_count)
+        values (#{adult}, #{budget}, #{homepage}, #{imdbId}, #{origLang}, #{origTitle}, #{overview}, #{popularity},
+                #{posterPath}, #{releaseDate}, #{revenue}, #{runtime}, #{status}, #{tagline}, #{title}, #{video},
+                #{voteAverage}, #{voteCount});
     </insert>
 
+    <resultMap id="allMovieAndCountryByStepResultMap" type="Movie">
+        <id column="movie_id" property="movieId"></id>
+        <result column="title" property="title"></result>
+        <result column="original_title" property="originalTitle"></result>
+        <result column="original_language" property="originalLanguage"></result>
+        <result column="tagline" property="tagline"></result>
+        <result column="overview" property="overview"></result>
+        <result column="runtime" property="runtime"></result>
+        <result column="status" property="status"></result>
+        <result column="release_date" property="releaseDate"></result>
+        <result column="homepage" property="homepage"></result>
+        <result column="popularity" property="popularity"></result>
+        <result column="revenue" property="revenue"></result>
+        <result column="adult" property="adult"></result>
+        <result column="budget" property="budget"></result>
+        <result column="vote_average" property="voteAverage"></result>
+        <result column="vote_count" property="voteCount"></result>
+        <result column="imdb_id" property="imdbId"></result>
+        <result column="poster_path" property="posterPath"></result>
+        <result column="video" property="video"></result>
+        <collection property="movieCountryList"
+                    select="com.lqyrmk.emovie.mapper.MovieCountryMapper.getAllMovieAndCountryByStep2"
+                    column="movie_id"></collection>
+    </resultMap>
+
+    <!--List<Movie> getAllMovieAndCountryByStep1(@Param("countryKey") String countryKey);-->
+    <select id="getAllMovieAndCountryByStep1" resultMap="allMovieAndCountryByStepResultMap">
+        select `movie_id`,
+               `title`,
+               `original_title`,
+               `original_language`,
+               `tagline`,
+               `runtime`,
+               `release_date`,
+               `vote_average`
+        from movie
+        where `title` like "%"#{movieNameKey}"%"
+        and movie_id in
+            (
+                select movie_id
+                from movie_country
+                <where>
+                    <if test="countryName != null and countryName != ''">
+                        country_id = (
+                            select country_id
+                            from country
+                            where country_name = #{countryName}
+                        )
+                    </if>
+                </where>
+            )
+        order by movie_id asc
+    </select>
+
+    <resultMap id="movieAndCountryByStepResultMap" type="Movie">
+        <id column="movie_id" property="movieId"></id>
+        <result column="title" property="title"></result>
+        <result column="original_title" property="originalTitle"></result>
+        <result column="original_language" property="originalLanguage"></result>
+        <result column="tagline" property="tagline"></result>
+        <result column="overview" property="overview"></result>
+        <result column="runtime" property="runtime"></result>
+        <result column="status" property="status"></result>
+        <result column="release_date" property="releaseDate"></result>
+        <result column="homepage" property="homepage"></result>
+        <result column="popularity" property="popularity"></result>
+        <result column="revenue" property="revenue"></result>
+        <result column="adult" property="adult"></result>
+        <result column="budget" property="budget"></result>
+        <result column="vote_average" property="voteAverage"></result>
+        <result column="vote_count" property="voteCount"></result>
+        <result column="imdb_id" property="imdbId"></result>
+        <result column="poster_path" property="posterPath"></result>
+        <result column="video" property="video"></result>
+        <collection property="movieCountryList"
+                    select="com.lqyrmk.emovie.mapper.MovieCountryMapper.getMovieAndCountryByStep2"
+                    column="movie_id"></collection>
+    </resultMap>
+
+    <!--Movie getMovieAndCountryByStep1(@Param("movieId") Long movieId);-->
+    <select id="getMovieAndCountryByStep1" resultMap="movieAndCountryByStepResultMap">
+        select `movie_id`, `title`, #{countryKey} as country_key
+        from movie
+        where movie_id = #{movieId}
+    </select>
+
+    <!--List<Movie> getAllCountryAndMovieByStep3(@Param("movieId") Long movieId);-->
+    <select id="getAllCountryAndMovieByStep3" resultType="Movie">
+        select `movie_id`,
+               `title`,
+               `original_title`,
+               `original_language`,
+               `tagline`,
+               `runtime`,
+               `release_date`,
+               `vote_average`
+        from movie
+        where movie_id = #{movieId}
+    </select>
 
 </mapper>

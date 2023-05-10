@@ -1,5 +1,6 @@
 package com.lqyrmk.emovie.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,10 +16,19 @@ import lombok.Data;
 @TableName("movie_country")
 public class MovieCountry {
 
+    @ApiModelProperty("id")
+    @TableId
+    private Long id;
+
     @ApiModelProperty("电影id")
     private Long movieId;
 
-    @ApiModelProperty("国家id")
-    private Long countryId;
+    @ApiModelProperty("国家")
+//    private Long countryId;
+    //1
+    private Country country;
+
+    //2
+//    private Movie movie;
 
 }

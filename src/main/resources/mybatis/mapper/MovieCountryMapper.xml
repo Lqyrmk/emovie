@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lqyrmk.emovie.mapper.MovieCountryMapper">
+
+    <resultMap id="allMovieAndCountryByStepResultMap" type="MovieCountry">
+        <id column="id" property="id"></id>
+        <result column="movie_id" property="movieId"></result>
+        <association property="country"
+                     select="com.lqyrmk.emovie.mapper.CountryMapper.getAllMovieAndCountryByStep3"
+                     column="country_id"></association>
+    </resultMap>
+
+    <!--List<MovieCountry> getAllMovieAndCountryByStep2(@Param("movieId") Long movieId,
+                                                    @Param("countryKey") String countryKey);-->
+    <select id="getAllMovieAndCountryByStep2" resultMap="allMovieAndCountryByStepResultMap">
+        select `id`, `movie_id`, `country_id`
+        from movie_country
+        where movie_id = #{movieId}
+    </select>
+
+    <resultMap id="movieAndCountryByStepResultMap" type="MovieCountry">
+        <id column="id" property="id"></id>
+        <result column="movie_id" property="movieId"></result>
+        <association property="country"
+                     select="com.lqyrmk.emovie.mapper.CountryMapper.getMovieAndCountryByStep3"
+                     column="{countryId=country_id, countryKey=country_key}"></association>
+    </resultMap>
+
+    <!--List<MovieCountry> getMovieAndCountryByStep2(@Param("movieId") Long movieId);-->
+    <select id="getMovieAndCountryByStep2" resultMap="movieAndCountryByStepResultMap">
+        select `id`, `movie_id`, `country_id`, #{countryKey} as country_key
+        from movie_country
+        where movie_id = #{movieId}
+    </select>
+
+    <resultMap id="allCountryAndMovieByStepResultMap" type="MovieCountry">
+        <id column="id" property="id"></id>
+        <result column="country_id" property="countryId"></result>
+        <association property="movie"
+                     select="com.lqyrmk.emovie.mapper.MovieMapper.getAllCountryAndMovieByStep3"
+                     column="movie_id"></association>
+    </resultMap>
+
+    <!--List<MovieCountry> getAllCountryAndMovieByStep2(@Param("countryId") String countryId);-->
+    <select id="getAllCountryAndMovieByStep2" resultMap="allCountryAndMovieByStepResultMap">
+        select *
+        from movie_country
+        where country_id = #{countryId}
+    </select>
+
+</mapper>
