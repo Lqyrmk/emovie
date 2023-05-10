@@ -5,4 +5,24 @@
 
 <mapper namespace="com.lqyrmk.emovie.mapper.MovieGenreMapper">
 
+    <resultMap id="allMovieAndCountryByStepResultMap" type="MovieGenre">
+        <id column="id" property="id"></id>
+        <result column="movie_id" property="movieId"></result>
+        <association property="genre"
+                     select="com.lqyrmk.emovie.mapper.GenreMapper.getAllMovieAndCountryByStep3"
+                     column="genre_id"></association>
+    </resultMap>
+
+    <!--List<MovieGenre> getAllMovieAndCountryByStep2(@Param("movieId") Long movieId);-->
+    <select id="getAllMovieAndCountryByStep2" resultMap="allMovieAndCountryByStepResultMap">
+        select `id`, `movie_id`, `genre_id`
+        from movie_genre
+        where movie_id = #{movieId}
+    </select>
+
+    <!--void addMovieToGenre(MovieGenre movieGenre);-->
+    <insert id="addMovieToGenre">
+        insert into movie_genre (movie_id, genre_id) values (#{movieGenre.movieId}, #{movieGenre.genreId})
+    </insert>
+
 </mapper>

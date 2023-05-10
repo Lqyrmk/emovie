@@ -1,5 +1,6 @@
 package com.lqyrmk.emovie.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,11 +20,17 @@ import lombok.NoArgsConstructor;
 @TableName("movie_genre")
 public class MovieGenre {
 
+    @ApiModelProperty("id")
+    @TableId
+    private Long id;
+
     @ApiModelProperty("电影id")
     private Long movieId;
 
     @ApiModelProperty("类目id")
     private Long genreId;
 
+    @ApiModelProperty("类目")
+    private Genre genre;
 
 }

@@ -32,6 +32,9 @@ public class Movie {
     @ApiModelProperty("制作国家")
     private List<MovieCountry> movieCountryList;
 
+    @ApiModelProperty("所属类目")
+    private List<MovieGenre> movieGenreList;
+
     @ApiModelProperty("电影原语言")
     private String originalLanguage;
 

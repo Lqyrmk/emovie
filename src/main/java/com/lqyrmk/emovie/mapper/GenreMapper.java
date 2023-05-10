@@ -1,8 +1,10 @@
 package com.lqyrmk.emovie.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lqyrmk.emovie.entity.Country;
 import com.lqyrmk.emovie.entity.Genre;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @Auther: Limo
@@ -14,4 +16,14 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface GenreMapper extends BaseMapper<Genre> {
     void addGenre(Genre genres);
+
+    /**
+     * @description: 分步查询所有电影和电影制片国家信息的第三步
+     * @author: YuanmingLiu
+     * @date: 2023/5/10 20:25
+     * @param: [genreId]
+     * @return: com.lqyrmk.emovie.entity.Genre
+     **/
+    Genre getAllMovieAndCountryByStep3(@Param("genreId") Long genreId);
+
 }

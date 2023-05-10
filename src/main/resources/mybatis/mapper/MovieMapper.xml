@@ -38,6 +38,9 @@
         <collection property="movieCountryList"
                     select="com.lqyrmk.emovie.mapper.MovieCountryMapper.getAllMovieAndCountryByStep2"
                     column="movie_id"></collection>
+        <collection property="movieGenreList"
+                    select="com.lqyrmk.emovie.mapper.MovieGenreMapper.getAllMovieAndCountryByStep2"
+                    column="movie_id"></collection>
     </resultMap>
 
     <!--List<Movie> getAllMovieAndCountryByStep1(@Param("countryKey") String countryKey);-->
@@ -47,25 +50,50 @@
                `original_title`,
                `original_language`,
                `tagline`,
+               `overview`,
                `runtime`,
+               `status`,
                `release_date`,
-               `vote_average`
+               `homepage`,
+               `popularity`,
+               `revenue`,
+               `adult`,
+               `budget`,
+               `vote_average`,
+               `vote_count`,
+               `imdb_id`,
+               `poster_path`,
+               `video`
         from movie
-        where `title` like "%"#{movieNameKey}"%"
-        and movie_id in
-            (
-                select movie_id
-                from movie_country
-                <where>
-                    <if test="countryName != null and countryName != ''">
-                        country_id = (
-                            select country_id
-                            from country
-                            where country_name = #{countryName}
-                        )
-                    </if>
-                </where>
-            )
+        <where>
+            <if test="1==1">
+                `title` like "%"#{movieNameKey}"%"
+            </if>
+            <if test="countryName != null and countryName != ''">
+                and `movie_id` in
+                (
+                    select `movie_id`
+                    from movie_country
+                    where country_id = (
+                        select country_id
+                        from country
+                        where country_name = #{countryName}
+                    )
+                )
+            </if>
+            <if test="genreName != null and genreName != ''">
+                and `movie_id` in
+                (
+                    select `movie_id`
+                    from movie_genre
+                    where genre_id = (
+                        select genre_id
+                        from genre
+                        where genre_name = #{genreName}
+                    )
+                )
+            </if>
+        </where>
         order by movie_id asc
     </select>
 

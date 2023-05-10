@@ -60,9 +60,25 @@ public class MovieGenreController {
             return Result.error("该类目不存在");
         }
 
+        // 查询该电影是否在类目中
+        LambdaQueryWrapper<MovieGenre> movieGenreLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        for (Map<String, Object> movie : movieList) {
+            movieGenreLambdaQueryWrapper
+                    .select(MovieGenre::getMovieId, MovieGenre::getGenreId)
+                    .eq(MovieGenre::getMovieId, (Long) movie.get("movie_id"))
+                    .eq(MovieGenre::getGenreId, genre.getGenreId());
+            if (movieGenreService.getOne(movieGenreLambdaQueryWrapper) != null) {
+                return Result.error("该电影已在所选类目中！");
+            }
+        }
+
         // 添加电影到类目中
-        MovieGenre movieGenre = new MovieGenre((Long) movieList.get(0).get("movie_id"), genre.getGenreId());
+        MovieGenre movieGenre = new MovieGenre();
+        movieGenre.setMovieId((Long) movieList.get(0).get("movie_id"));
+        movieGenre.setGenreId(genre.getGenreId());
+
         movieGenreService.save(movieGenre);
+//        movieGenreService.addMovieToGenre(movieGenre);
 
         return Result.success(null, "添加成功！");
 

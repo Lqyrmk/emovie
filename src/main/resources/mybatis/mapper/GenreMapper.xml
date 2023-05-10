@@ -11,5 +11,11 @@
         values(#{genreName});
     </insert>
 
+    <!--Genre getAllMovieAndCountryByStep3(@Param("genreId") Long genreId);-->
+    <select id="getAllMovieAndCountryByStep3" resultType="Genre">
+        select genre_id, genre_name
+        from genre
+        where genre_id = #{genreId}
+    </select>
 
 </mapper>

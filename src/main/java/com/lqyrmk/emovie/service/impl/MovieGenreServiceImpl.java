@@ -21,4 +21,8 @@ public class MovieGenreServiceImpl extends ServiceImpl<MovieGenreMapper, MovieGe
     private MovieGenreMapper movieGenreMapper;
 
 
+    @Override
+    public void addMovieToGenre(MovieGenre movieGenre) {
+        movieGenreMapper.addMovieToGenre(movieGenre);
+    }
 }
