@@ -3,16 +3,12 @@ package com.lqyrmk.emovie.controller;
 import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.Genre;
 import com.lqyrmk.emovie.service.GenreService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Description
@@ -22,11 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "类目接口")
 @Slf4j
 @RestController
-@RequestMapping("/genres")
+@RequestMapping("/genre")
 public class GenreController {
 
     @Autowired
     private GenreService genresService;
+
+    @GetMapping
+    @ApiOperation("查询所有电影类目")
+    @ApiImplicitParams({
+
+    })
+    public Result<List<Genre>> getAllGenres() {
+        List<Genre> list = genresService.list();
+        return Result.success(list, "查询成功！");
+    }
 
     /**
      * @description: 添加电影类目
@@ -36,7 +42,7 @@ public class GenreController {
      * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.Genre>
      */
     @PostMapping
-    @ApiOperation(value = "添加电影类目")
+    @ApiOperation("添加电影类目")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "genres", value = "类目信息", required = true)
     })
