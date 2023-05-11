@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lqyrmk.emovie.mapper.RatingsMapper">
-    
+
     <!--    查找评分-->
     <select id="getRatingByUserIdAndMovieId" resultType="com.lqyrmk.emovie.entity.Ratings">
         select * from user
@@ -13,8 +13,8 @@
 
     <!--    增加评分-->
     <insert id="addRating">
-        insert into ratings(user_id, movie_id, rating, timestamp)
-        values(#{userId}, #{movieId},  #{rating}, #{timestamp});
+        insert into ratings(user_id, movie_id, ratings, timestamp)
+        values(#{userId}, #{movieId},  #{ratings}, #{timestamp});
     </insert>
 
 

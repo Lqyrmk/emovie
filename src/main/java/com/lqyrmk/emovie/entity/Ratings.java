@@ -1,29 +1,38 @@
 package com.lqyrmk.emovie.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * @Auther: Limo
- * @Date: 2023/3/31 23:10
- * @Description: Ratings
- * @Version 1.0.0
+ * @Description
+ * @Author Limo
+ * @Date 2023/3/31 23:10
  */
-
 @ApiModel("评分")
 @Data
+@TableName("ratings_small")
 public class Ratings {
+
+    @ApiModelProperty("id")
+    @TableId
+    private Long id;
+
     @ApiModelProperty("用户id")
-    private Integer userId;
+    private Long userId;
 
     @ApiModelProperty("电影id")
-    private Integer movieId;
+    private Long movieId;
+
+//    @ApiModelProperty("电影")
+//    private Movie movie;
 
     @ApiModelProperty("评分")
     private Integer rating;
 
     @ApiModelProperty("评分时间戳")
-    private Integer timestamp;
+    private Long timestamp;
 
 }

@@ -1,9 +1,9 @@
 package com.lqyrmk.emovie.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lqyrmk.emovie.entity.Ratings;
 import com.lqyrmk.emovie.mapper.RatingsMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @Auther: Limo
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * @Description: RatingsService
  * @Version 1.0.0
  */
-public interface RatingsService {
+public interface RatingsService extends IService<Ratings> {
 
     /**
      * @description: 判断是否存在评分
@@ -31,5 +31,12 @@ public interface RatingsService {
      */
     public Ratings insertRating(Ratings ratings);
 
-
+    /**
+     * @description: 新增评分
+     * @author: YuanmingLiu
+     * @date: 2023/5/11 19:30
+     * @param: [ratings]
+     * @return: void
+     **/
+    void addRatings(Ratings ratings);
 }

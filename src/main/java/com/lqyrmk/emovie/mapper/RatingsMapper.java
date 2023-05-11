@@ -1,5 +1,6 @@
 package com.lqyrmk.emovie.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lqyrmk.emovie.entity.Ratings;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,10 +12,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public interface RatingsMapper {
+public interface RatingsMapper extends BaseMapper<Ratings> {
 
     void addRating(Ratings ratings);
 
-    Ratings getRatingByUserIdAndMovieId(Integer userId, Integer MovieId);
+    Ratings getRatingByUserIdAndMovieId(Long userId, Long MovieId);
 
 }

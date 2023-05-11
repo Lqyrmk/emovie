@@ -1,7 +1,13 @@
 package com.lqyrmk.emovie.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.lqyrmk.emovie.common.Result;
+import com.lqyrmk.emovie.entity.Movie;
 import com.lqyrmk.emovie.entity.Ratings;
+import com.lqyrmk.emovie.entity.User;
+import com.lqyrmk.emovie.mapper.RatingsMapper;
+import com.lqyrmk.emovie.service.MovieService;
 import com.lqyrmk.emovie.service.RatingsService;
 import com.lqyrmk.emovie.service.UserService;
 import io.swagger.annotations.Api;
@@ -10,24 +16,68 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * @Description
+ * @Description 评分接口
  * @Author YuanmingLiu
  * @Date 2023/5/8 19:25
  */
 @Api(tags = "评分接口")
 @Slf4j
 @RestController
-@RequestMapping("ratings")
+@RequestMapping("/ratings")
 public class RatingsController {
 
     @Autowired
     private RatingsService ratingsService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private MovieService movieService;
+
+    /**
+     * @description: 查询个人评分信息
+     * @author: YuanmingLiu
+     * @date: 2023/5/11 19:57
+     * @param: [userId]
+     * @return: com.lqyrmk.emovie.common.Result<java.util.Map<java.lang.String,java.lang.Object>>
+     **/
+    @GetMapping("/{userId}")
+    @ApiOperation(value = "查询个人评分信息接口")
+    @ApiImplicitParams({
+    })
+    public Result<Map<String, Object>> getRatingsByUserId(@PathVariable Long userId) {
+
+        LambdaQueryWrapper<Ratings> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Ratings::getUserId, userId);
+        List<Ratings> ratingsList = ratingsService.list(queryWrapper);
+
+        if (ratingsList.size() == 0) {
+            return Result.error("暂未对电影评分");
+        }
+
+        // 计算评分分数总合
+        int ratingSum = 0;
+        for (Ratings rating : ratingsList) {
+            ratingSum += rating.getRating();
+        }
+        // 计算平均评分
+        double ratingAverage = ratingSum / ratingsList.size();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("ratingAverage", ratingAverage);
+        map.put("ratingsList", ratingsList);
+
+        return Result.success(map, "查询成功");
+    }
+
 
     /**
      * @description: 用户评分
@@ -41,11 +91,76 @@ public class RatingsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ratings", value = "用户评分信息", required = true)
     })
-    public Result<Ratings> addRating(@RequestBody Ratings ratings) {
-        if (ratingsService.existsRating(ratings)) {
-            return Result.error("评分已存在");
+    public Result<Ratings> addRatings(@RequestBody Ratings ratings) {
+
+        // 判断用户是否已对该电影评过分
+        LambdaQueryWrapper<Ratings> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Ratings::getUserId, ratings.getUserId())
+                .eq(Ratings::getMovieId, ratings.getMovieId());
+        if (ratingsService.getOne(queryWrapper) != null) {
+            return Result.error("您已对该电影评过分，是否需要对评分进行修改？");
         }
-        ratingsService.insertRating(ratings);
-        return Result.success(ratings);
+
+        // 判断评分的用户是否存在
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper.select(User::getUserId).eq(User::getUserId, ratings.getUserId());
+        if (userService.getOne(userLambdaQueryWrapper) != null) {
+            return Result.error("用户不存在");
+        }
+
+        // 判断被评分的电影是否存在
+        LambdaQueryWrapper<Movie> movieLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        movieLambdaQueryWrapper.select(Movie::getMovieId).eq(Movie::getMovieId, ratings.getMovieId());
+        if (movieService.getOne(movieLambdaQueryWrapper) != null) {
+            return Result.error("电影不存在");
+        }
+
+        // 添加评分记录
+        ratingsService.save(ratings);
+
+        return Result.success(ratings, "评分成功！");
     }
+
+
+    /**
+     * @description: 修改评分
+     * @author: YuanmingLiu
+     * @date: 2023/5/11 19:43
+     * @param: [ratings]
+     * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.Ratings>
+     **/
+    @PutMapping
+    @ApiOperation(value = "修改评分接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "ratings", value = "用户评分信息", required = true)
+    })
+    public Result<Ratings> updateRatings(@RequestBody Ratings ratings) {
+
+        // 判断评分的用户是否存在
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper.select(User::getUserId).eq(User::getUserId, ratings.getUserId());
+        if (userService.getOne(userLambdaQueryWrapper) != null) {
+            return Result.error("用户不存在");
+        }
+
+        // 判断被评分的电影是否存在
+        LambdaQueryWrapper<Movie> movieLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        movieLambdaQueryWrapper.select(Movie::getMovieId).eq(Movie::getMovieId, ratings.getMovieId());
+        if (movieService.getOne(movieLambdaQueryWrapper) != null) {
+            return Result.error("电影不存在");
+        }
+
+        // 修改评分记录
+//        LambdaUpdateWrapper<Ratings> updateWrapper = new LambdaUpdateWrapper<>();
+//        updateWrapper.eq(Ratings::getUserId, ratings.getUserId())
+//                .eq(Ratings::getMovieId, ratings.getMovieId())
+//                .set(Ratings::getRating, ratings.getRating());
+//        ratingsService.update(updateWrapper);
+
+
+        ratingsService.updateById(ratings);
+
+        return Result.success(ratings, "已将对该电影的评分修改为：" + ratings.getRating());
+    }
+
 }
