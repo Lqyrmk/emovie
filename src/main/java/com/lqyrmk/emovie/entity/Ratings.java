@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @ApiModel("评分")
 @Data
-@TableName("ratings_small")
+@TableName("ratings")
 public class Ratings {
 
     @ApiModelProperty("id")
