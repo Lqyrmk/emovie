@@ -34,7 +34,7 @@ public interface MovieService extends IService<Movie> {
      * @param: [current, size, movieNameKey, countryName, genreName]
      * @return: java.util.List<com.lqyrmk.emovie.entity.Movie>
      **/
-    Map<String, Object> getMoviesByPage(Integer current, Integer size, String movieNameKey, String countryName, String genreName);
+    Map<String, Object> getMoviesByPage(Integer current, Integer size, String movieNameKey, String countryName, String genreName, String year);
 
     /**
      * @description: 根据id查询电影

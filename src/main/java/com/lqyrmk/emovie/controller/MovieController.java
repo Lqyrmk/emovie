@@ -73,11 +73,12 @@ public class MovieController {
 
     })
     public Result<Map<String, Object>> getMovieByPage(@RequestParam("current") Integer current,
-                                              @RequestParam("size") Integer size,
-                                              @RequestParam("movieNameKey") String movieNameKey,
-                                              @RequestParam("countryName") String countryName,
-                                              @RequestParam("genreName") String genreName) {
-        Map<String, Object> moviesMap = movieService.getMoviesByPage(current, size, movieNameKey, countryName, genreName);
+                                                      @RequestParam("size") Integer size,
+                                                      @RequestParam("movieNameKey") String movieNameKey,
+                                                      @RequestParam("countryName") String countryName,
+                                                      @RequestParam("genreName") String genreName,
+                                                      @RequestParam("year") String year) {
+        Map<String, Object> moviesMap = movieService.getMoviesByPage(current, size, movieNameKey, countryName, genreName, year);
         return Result.success(moviesMap, "查询成功！");
     }
 

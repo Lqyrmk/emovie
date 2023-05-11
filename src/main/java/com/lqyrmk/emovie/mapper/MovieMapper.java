@@ -30,7 +30,8 @@ public interface MovieMapper extends BaseMapper<Movie> {
     Page<Movie> getAllMovieAndCountryByStep1(@Param("page") Page<Movie> page,
                                              @Param("movieNameKey") String movieNameKey,
                                              @Param("countryName") String countryName,
-                                             @Param("genreName") String genreName);
+                                             @Param("genreName") String genreName,
+                                             @Param("year") String year);
 
     /**
      * @description: 根据电影id分步查询电影和电影制片国家信息的第一步
