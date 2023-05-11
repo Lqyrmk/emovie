@@ -7,6 +7,7 @@ import com.lqyrmk.emovie.entity.Movie;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: Limo
@@ -33,7 +34,7 @@ public interface MovieService extends IService<Movie> {
      * @param: [current, size, movieNameKey, countryName, genreName]
      * @return: java.util.List<com.lqyrmk.emovie.entity.Movie>
      **/
-    List<Movie> getMoviesByPage(Integer current, Integer size, String movieNameKey, String countryName, String genreName);
+    Map<String, Object> getMoviesByPage(Integer current, Integer size, String movieNameKey, String countryName, String genreName);
 
     /**
      * @description: 根据id查询电影

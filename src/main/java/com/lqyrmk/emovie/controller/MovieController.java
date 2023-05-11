@@ -72,13 +72,13 @@ public class MovieController {
     @ApiImplicitParams({
 
     })
-    public Result<List<Movie>> getMovieByPage(@RequestParam("current") Integer current,
+    public Result<Map<String, Object>> getMovieByPage(@RequestParam("current") Integer current,
                                               @RequestParam("size") Integer size,
                                               @RequestParam("movieNameKey") String movieNameKey,
                                               @RequestParam("countryName") String countryName,
                                               @RequestParam("genreName") String genreName) {
-        List<Movie> movies = movieService.getMoviesByPage(current, size, movieNameKey, countryName, genreName);
-        return Result.success(movies, "查询成功！");
+        Map<String, Object> moviesMap = movieService.getMoviesByPage(current, size, movieNameKey, countryName, genreName);
+        return Result.success(moviesMap, "查询成功！");
     }
 
     /**
