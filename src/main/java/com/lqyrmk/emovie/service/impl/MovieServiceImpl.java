@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: Limo
@@ -86,6 +87,26 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
     @Override
     public Movie getMovieById(Long movieId) {
         return movieMapper.getMovieAndCountryByStep1(movieId, "Finland");
+    }
+
+    @Override
+    public List<String> getMovieByNameKey(String movieNameKey) {
+
+        // 模糊查询
+        LambdaQueryWrapper<Movie> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(Movie::getTitle).like(Movie::getTitle, movieNameKey).orderByAsc(Movie::getTitle);
+
+        // 分页，一次最多查出来10个
+        Page<Map<String, Object>> page = new Page<>(1, 10);
+        Page<Map<String, Object>> mapPage = movieMapper.selectMapsPage(page, queryWrapper);
+
+        // 使用一个数组对查询出来的电影名进行存放
+        List<String> movieNameList = new ArrayList<>();
+        for (Map<String, Object> record : mapPage.getRecords()) {
+            movieNameList.add((String) record.get("title"));
+        }
+
+        return movieNameList;
     }
 
     @Override

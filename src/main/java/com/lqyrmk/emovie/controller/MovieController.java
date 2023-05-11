@@ -2,6 +2,7 @@ package com.lqyrmk.emovie.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.Country;
 import com.lqyrmk.emovie.entity.Movie;
@@ -50,7 +51,6 @@ public class MovieController {
     @GetMapping("/{movieId}")
     @ApiOperation("根据id查询电影")
     @ApiImplicitParams({
-
     })
     public Result<Movie> getMovieById(@PathVariable("movieId") Long movieId) {
         Movie movie = movieService.getMovieById(movieId);
@@ -58,6 +58,16 @@ public class MovieController {
     }
 
     @GetMapping
+    @ApiOperation("根据电影名模糊查询电影")
+    @ApiImplicitParams({
+    })
+    public Result<List<String>> getMovieByNameKey(@RequestParam("movieNameKey") String movieNameKey) {
+        List<String> movieNameList = movieService.getMovieByNameKey(movieNameKey);
+        return Result.success(movieNameList, "成长查询成功！");
+    }
+
+
+    @GetMapping("/page")
     @ApiOperation("根据信息分页查询电影")
     @ApiImplicitParams({
 

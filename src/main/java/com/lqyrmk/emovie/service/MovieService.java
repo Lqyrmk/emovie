@@ -46,6 +46,16 @@ public interface MovieService extends IService<Movie> {
 
 
     /**
+     * @description: 根据电影名模糊查询电影
+     * @author: YuanmingLiu
+     * @date: 2023/5/11 22:27
+     * @param: [movieNameKey]
+     * @return: java.util.List<java.lang.String>
+     **/
+    List<String> getMovieByNameKey(String movieNameKey);
+
+
+    /**
      * @description: 增加电影
      * @author: Limo
      * @date: 2023/4/1 16:22
