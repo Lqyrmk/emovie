@@ -55,7 +55,6 @@ public class CountryController {
     @ApiImplicitParams({
     })
     public Result<List<Country>> getCountriesByKey(@RequestParam("countryKey") String countryKey) {
-        System.out.println("countryKey = " + countryKey);
         List<Country> countries = countryService.getCountriesByKey(countryKey);
         return Result.success(countries, "查询成功！");
     }

@@ -63,7 +63,7 @@ public class MovieController {
     })
     public Result<List<String>> getMovieByNameKey(@RequestParam("movieNameKey") String movieNameKey) {
         List<String> movieNameList = movieService.getMovieByNameKey(movieNameKey);
-        return Result.success(movieNameList, "成长查询成功！");
+        return Result.success(movieNameList, "查询成功！");
     }
 
 

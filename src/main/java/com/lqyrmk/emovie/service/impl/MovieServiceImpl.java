@@ -109,7 +109,7 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
     @Override
     public List<String> getMovieByNameKey(String movieNameKey) {
 
-        // 模糊查询
+        // 模糊查询 按名称排序
         LambdaQueryWrapper<Movie> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(Movie::getTitle).like(Movie::getTitle, movieNameKey).orderByAsc(Movie::getTitle);
 
