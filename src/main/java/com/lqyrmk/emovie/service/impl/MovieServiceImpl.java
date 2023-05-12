@@ -115,11 +115,11 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
 
         // 分页，一次最多查出来10个
         Page<Map<String, Object>> page = new Page<>(1, 10);
-        Page<Map<String, Object>> mapPage = movieMapper.selectMapsPage(page, queryWrapper);
+        movieMapper.selectMapsPage(page, queryWrapper);
 
         // 使用一个数组对查询出来的电影名进行存放
         List<String> movieNameList = new ArrayList<>();
-        for (Map<String, Object> record : mapPage.getRecords()) {
+        for (Map<String, Object> record : page.getRecords()) {
             movieNameList.add((String) record.get("title"));
         }
 
