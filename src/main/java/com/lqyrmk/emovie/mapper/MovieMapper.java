@@ -32,7 +32,8 @@ public interface MovieMapper extends BaseMapper<Movie> {
                                              @Param("countryName") String countryName,
                                              @Param("genreName") String genreName,
                                              @Param("languageIso") String languageIso,
-                                             @Param("year") String year);
+                                             @Param("year") String year,
+                                             @Param("rating") String rating);
 
     /**
      * @description: 根据电影id分步查询电影和电影制片国家信息的第一步

@@ -1,6 +1,7 @@
 package com.lqyrmk.emovie.service;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lqyrmk.emovie.entity.Country;
 import com.lqyrmk.emovie.entity.Movie;
@@ -30,11 +31,19 @@ public interface MovieService extends IService<Movie> {
     /**
      * @description: 根据信息分页查询电影
      * @author: YuanmingLiu
-     * @date: 2023/5/10 19:09
-     * @param: [current, size, movieNameKey, countryName, genreName]
-     * @return: java.util.List<com.lqyrmk.emovie.entity.Movie>
+     * @date: 2023/5/13 19:38
+     * @param: [current, size, movieNameKey, countryName, genreName, languageIso, year, rating]
+     * @return: java.util.Map<java.lang.String,java.lang.Object>
      **/
-    Map<String, Object> getMoviesByPage(Integer current, Integer size, String movieNameKey, String countryName, String genreName, String languageIso, String year);
+//    Map<String, Object> getMoviesByPage(Integer current,
+    Page<Movie> getMoviesByPage(Integer current,
+                                Integer size,
+                                String movieNameKey,
+                                String countryName,
+                                String genreName,
+                                String languageIso,
+                                String year,
+                                String rating);
 
     /**
      * @description: 根据id查询电影

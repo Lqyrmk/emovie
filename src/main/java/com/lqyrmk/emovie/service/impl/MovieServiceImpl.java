@@ -77,27 +77,35 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
     }
 
     @Override
-    public Map<String, Object> getMoviesByPage(Integer current, Integer size, String movieNameKey, String countryName, String genreName, String languageIso, String year) {
+//    public Map<String, Object> getMoviesByPage(Integer current,
+    public Page<Movie> getMoviesByPage(Integer current,
+                                               Integer size,
+                                               String movieNameKey,
+                                               String countryName,
+                                               String genreName,
+                                               String languageIso,
+                                               String year,
+                                               String rating) {
         Page<Movie> page = new Page<>(current, size);
-        movieMapper.getAllMovieAndCountryByStep1(page, movieNameKey, countryName, genreName, languageIso, year);
+        movieMapper.getAllMovieAndCountryByStep1(page, movieNameKey, countryName, genreName, languageIso, year, rating);
 
-        Map<String, Object> moviesMap = new HashMap<>();
-        // 查询出的记录
-        moviesMap.put("records", page.getRecords());
-        // 总页数
-        moviesMap.put("pages", page.getPages());
-        // 总记录数
-        moviesMap.put("total", page.getTotal());
-        // 当前页的页码
-        moviesMap.put("current", page.getCurrent());
-        // 每页显示的数据条数
-        moviesMap.put("size", page.getSize());
-        // 有下一页
-        moviesMap.put("hasNext", page.hasNext());
-        // 有上一页
-        moviesMap.put("hasPrevious", page.hasPrevious());
+//        Map<String, Object> moviesMap = new HashMap<>();
+//        // 查询出的记录
+//        moviesMap.put("records", page.getRecords());
+//        // 总页数
+//        moviesMap.put("pages", page.getPages());
+//        // 总记录数
+//        moviesMap.put("total", page.getTotal());
+//        // 当前页的页码
+//        moviesMap.put("current", page.getCurrent());
+//        // 每页显示的数据条数
+//        moviesMap.put("size", page.getSize());
+//        // 有下一页
+//        moviesMap.put("hasNext", page.hasNext());
+//        // 有上一页
+//        moviesMap.put("hasPrevious", page.hasPrevious());
 
-        return moviesMap;
+        return page;
     }
 
 

@@ -32,6 +32,7 @@
         <result column="budget" property="budget"></result>
         <result column="vote_average" property="voteAverage"></result>
         <result column="vote_count" property="voteCount"></result>
+        <result column="rating_average" property="ratingAverage"></result>
         <result column="imdb_id" property="imdbId"></result>
         <result column="poster_path" property="posterPath"></result>
         <result column="video" property="video"></result>
@@ -48,25 +49,9 @@
 
     <!--List<Movie> getAllMovieAndCountryByStep1(@Param("countryKey") String countryKey);-->
     <select id="getAllMovieAndCountryByStep1" resultMap="allMovieAndCountryByStepResultMap">
-        select `movie_id`,
-               `title`,
-               `original_title`,
-               `original_language`,
-               `tagline`,
-               `overview`,
-               `runtime`,
-               `status`,
-               `release_date`,
-               `homepage`,
-               `popularity`,
-               `revenue`,
-               `adult`,
-               `budget`,
-               `vote_average`,
-               `vote_count`,
-               `imdb_id`,
-               `poster_path`,
-               `video`
+        select `movie_id`,`title`,`original_title`,`original_language`,`tagline`,`overview`,
+               `runtime`,`status`,`release_date`,`homepage`,`popularity`,`revenue`,`adult`,
+               `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`
         from movie
         <where>
             <if test="1==1">
@@ -80,11 +65,7 @@
                 (
                     select `movie_id`
                     from movie_country
-                    where country_id = (
-                        select country_id
-                        from country
-                        where country_name = #{countryName}
-                    )
+                    where country_id = (select country_id from country where country_name = #{countryName})
                 )
             </if>
             <if test="genreName != null and genreName != ''">
@@ -92,11 +73,7 @@
                 (
                     select `movie_id`
                     from movie_genre
-                    where genre_id = (
-                        select genre_id
-                        from genre
-                        where genre_name = #{genreName}
-                    )
+                    where genre_id = (select genre_id from genre where genre_name = #{genreName})
                 )
             </if>
             <if test="languageIso != null and languageIso != ''">
@@ -104,12 +81,11 @@
                 (
                     select `movie_id`
                     from movie_language
-                    where language_id = (
-                        select language_id
-                        from `language`
-                        where `iso_639_1` = #{languageIso}
-                    )
+                    where language_id = (select language_id from `language` where `iso_639_1` = #{languageIso})
                 )
+            </if>
+            <if test="rating != null">
+                and `rating_average` >= #{rating}
             </if>
         </where>
         order by movie_id asc

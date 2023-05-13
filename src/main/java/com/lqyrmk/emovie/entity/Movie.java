@@ -1,5 +1,6 @@
 package com.lqyrmk.emovie.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -28,15 +29,6 @@ public class Movie {
 
     @ApiModelProperty("电影原名")
     private String originalTitle;
-
-    @ApiModelProperty("制作国家")
-    private List<MovieCountry> movieCountryList;
-
-    @ApiModelProperty("所属类目")
-    private List<MovieGenre> movieGenreList;
-
-    @ApiModelProperty("语言")
-    private List<MovieLanguage> movieLanguageList;
 
     @ApiModelProperty("电影原语言")
     private String originalLanguage;
@@ -71,11 +63,23 @@ public class Movie {
     @ApiModelProperty("电影预算")
     private String budget;
 
-    @ApiModelProperty("电影平均评分")
+    @ApiModelProperty("电影平均投票")
     private String voteAverage;
 
-    @ApiModelProperty("电影评分人数")
+    @ApiModelProperty("电影投票人数")
     private String voteCount;
+
+    @ApiModelProperty("平均评分")
+    private Double ratingAverage;
+
+    @ApiModelProperty("制作国家")
+    private List<MovieCountry> movieCountryList;
+
+    @ApiModelProperty("所属类目")
+    private List<MovieGenre> movieGenreList;
+
+    @ApiModelProperty("语言")
+    private List<MovieLanguage> movieLanguageList;
 
     @ApiModelProperty("default")
     private String imdbId;
