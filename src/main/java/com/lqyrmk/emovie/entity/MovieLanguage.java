@@ -30,4 +30,7 @@ public class MovieLanguage {
     @ApiModelProperty("语言id")
     private Long languageId;
 
+    @ApiModelProperty("语言")
+    private Language language;
+
 }

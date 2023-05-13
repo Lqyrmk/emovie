@@ -13,4 +13,21 @@
         ORDER BY movieNum DESC
     </select>
 
+    <resultMap id="allMovieAndCountryByStepResultMap" type="MovieLanguage">
+        <id column="id" property="id"></id>
+        <result column="movie_id" property="movieId"></result>
+        <association property="language"
+                     select="com.lqyrmk.emovie.mapper.LanguageMapper.getAllMovieAndCountryByStep3"
+                     column="language_id"></association>
+    </resultMap>
+
+    <!--List<MovieLanguage> getAllMovieAndCountryByStep2(@Param("movieId") Long movieId);-->
+    <select id="getAllMovieAndCountryByStep2" resultMap="allMovieAndCountryByStepResultMap">
+        select `id`, `movie_id`, `language_id`
+        from movie_language
+        where movie_id = #{movieId}
+    </select>
+
+
+
 </mapper>

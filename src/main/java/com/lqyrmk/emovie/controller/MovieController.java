@@ -77,8 +77,9 @@ public class MovieController {
                                                       @RequestParam("movieNameKey") String movieNameKey,
                                                       @RequestParam("countryName") String countryName,
                                                       @RequestParam("genreName") String genreName,
+                                                      @RequestParam("languageIso") String languageIso,
                                                       @RequestParam("year") String year) {
-        Map<String, Object> moviesMap = movieService.getMoviesByPage(current, size, movieNameKey, countryName, genreName, year);
+        Map<String, Object> moviesMap = movieService.getMoviesByPage(current, size, movieNameKey, countryName, genreName, languageIso, year);
         return Result.success(moviesMap, "查询成功！");
     }
 

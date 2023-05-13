@@ -41,6 +41,9 @@
         <collection property="movieGenreList"
                     select="com.lqyrmk.emovie.mapper.MovieGenreMapper.getAllMovieAndCountryByStep2"
                     column="movie_id"></collection>
+        <collection property="movieLanguageList"
+                    select="com.lqyrmk.emovie.mapper.MovieLanguageMapper.getAllMovieAndCountryByStep2"
+                    column="movie_id"></collection>
     </resultMap>
 
     <!--List<Movie> getAllMovieAndCountryByStep1(@Param("countryKey") String countryKey);-->
@@ -93,6 +96,18 @@
                         select genre_id
                         from genre
                         where genre_name = #{genreName}
+                    )
+                )
+            </if>
+            <if test="languageIso != null and languageIso != ''">
+                and `movie_id` in
+                (
+                    select `movie_id`
+                    from movie_language
+                    where language_id = (
+                        select language_id
+                        from `language`
+                        where `iso_639_1` = #{languageIso}
                     )
                 )
             </if>

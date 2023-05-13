@@ -35,6 +35,9 @@ public class Movie {
     @ApiModelProperty("所属类目")
     private List<MovieGenre> movieGenreList;
 
+    @ApiModelProperty("语言")
+    private List<MovieLanguage> movieLanguageList;
+
     @ApiModelProperty("电影原语言")
     private String originalLanguage;
 

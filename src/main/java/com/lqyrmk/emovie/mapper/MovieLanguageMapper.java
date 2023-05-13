@@ -6,6 +6,7 @@ import com.lqyrmk.emovie.entity.MovieLanguage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,5 +25,15 @@ public interface MovieLanguageMapper extends BaseMapper<MovieLanguage> {
      * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.lqyrmk.emovie.entity.MovieLanguage>
      **/
     Page<Map<String, Object>> getMostUsedLanguage(@Param("page") Page<Map<String, Object>> page);
+
+    /**
+     * @description: 分步查询所有电影和电影制片国家信息的第二步
+     * @author: YuanmingLiu
+     * @date: 2023/5/13 18:24
+     * @param: [movieId]
+     * @return: java.util.List<com.lqyrmk.emovie.entity.MovieLanguage>
+     **/
+    List<MovieLanguage> getAllMovieAndCountryByStep2(@Param("movieId") Long movieId);
+
 
 }

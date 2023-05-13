@@ -77,9 +77,9 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
     }
 
     @Override
-    public Map<String, Object> getMoviesByPage(Integer current, Integer size, String movieNameKey, String countryName, String genreName, String year) {
+    public Map<String, Object> getMoviesByPage(Integer current, Integer size, String movieNameKey, String countryName, String genreName, String languageIso, String year) {
         Page<Movie> page = new Page<>(current, size);
-        movieMapper.getAllMovieAndCountryByStep1(page, movieNameKey, countryName, genreName, year);
+        movieMapper.getAllMovieAndCountryByStep1(page, movieNameKey, countryName, genreName, languageIso, year);
 
         Map<String, Object> moviesMap = new HashMap<>();
         // 查询出的记录

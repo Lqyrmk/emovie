@@ -31,6 +31,7 @@ public interface MovieMapper extends BaseMapper<Movie> {
                                              @Param("movieNameKey") String movieNameKey,
                                              @Param("countryName") String countryName,
                                              @Param("genreName") String genreName,
+                                             @Param("languageIso") String languageIso,
                                              @Param("year") String year);
 
     /**
