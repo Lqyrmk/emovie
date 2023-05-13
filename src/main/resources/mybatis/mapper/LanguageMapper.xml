@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lqyrmk.emovie.mapper.LanguageMapper">
+
+<!--    &lt;!&ndash;Page<Language> getLanguageByKey(@Param("page") Page<Language> page,-->
+<!--                                    @Param("languageKey") String languageKey);&ndash;&gt;-->
+<!--    <select id="getLanguageByKey" resultType="Language">-->
+<!--        select * from `language` where language_name = #{languageKey}-->
+<!--    </select>-->
+
+</mapper>
