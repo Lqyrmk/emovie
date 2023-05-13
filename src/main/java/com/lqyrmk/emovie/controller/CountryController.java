@@ -2,6 +2,7 @@ package com.lqyrmk.emovie.controller;
 
 import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.Country;
+import com.lqyrmk.emovie.entity.Language;
 import com.lqyrmk.emovie.service.CountryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
@@ -60,5 +61,20 @@ public class CountryController {
         return Result.success(countries, "查询成功！");
     }
 
+    /**
+     * @description: 查询最多电影涉及的制片国家
+     * @author: YuanmingLiu
+     * @date: 2023/5/13 23:45
+     * @param: [limit]
+     * @return: com.lqyrmk.emovie.common.Result<java.util.List<com.lqyrmk.emovie.entity.Country>>
+     **/
+    @GetMapping("/most")
+    @ApiOperation("查询最多电影涉及的制片国家")
+    @ApiImplicitParams({
+    })
+    public Result<List<Country>> getMostUsedLanguage(@RequestParam("limit") Integer limit) {
+        List<Country> countryList = countryService.getMostUsedCountry(limit);
+        return Result.success(countryList, "查询成功");
+    }
 
 }

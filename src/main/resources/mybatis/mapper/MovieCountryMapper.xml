@@ -5,6 +5,14 @@
 
 <mapper namespace="com.lqyrmk.emovie.mapper.MovieCountryMapper">
 
+    <!--Page<Map<String, Object>> getMostUsedCountry(@Param("page") Page<Map<String, Object>> page);-->
+    <select id="getMostUsedCountry" resultType="map">
+        SELECT `country_id` as countryId, COUNT(`country_id`) movieNum
+        FROM `movie_country`
+        GROUP BY `country_id`
+        ORDER BY movieNum DESC
+    </select>
+
     <resultMap id="allMovieAndCountryByStepResultMap" type="MovieCountry">
         <id column="id" property="id"></id>
         <result column="movie_id" property="movieId"></result>

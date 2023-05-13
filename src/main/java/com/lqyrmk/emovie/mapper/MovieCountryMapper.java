@@ -1,12 +1,14 @@
 package com.lqyrmk.emovie.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lqyrmk.emovie.entity.Movie;
 import com.lqyrmk.emovie.entity.MovieCountry;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description
@@ -15,6 +17,15 @@ import java.util.List;
  */
 @Mapper
 public interface MovieCountryMapper extends BaseMapper<MovieCountry> {
+
+    /**
+     * @description: 查询最多电影涉及的制片国家
+     * @author: YuanmingLiu
+     * @date: 2023/5/14 0:32
+     * @param: [page]
+     * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<java.util.Map<java.lang.String,java.lang.Object>>
+     **/
+    Page<Map<String, Object>> getMostUsedCountry(@Param("page") Page<Map<String, Object>> page);
 
     /**
      * @description: 分步查询所有电影和电影制片国家信息的第二步
