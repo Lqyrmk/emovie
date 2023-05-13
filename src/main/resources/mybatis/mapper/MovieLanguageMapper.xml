@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lqyrmk.emovie.mapper.MovieLanguageMapper">
+
+    <!--Page<Map<String, Object>> getMostUsedLanguage(@Param("page") Page<Map<String, Object>> page);-->
+    <select id="getMostUsedLanguage" resultType="map">
+        SELECT `language_id` as languageId, COUNT(`language_id`) movieNum
+        FROM `movie_language`
+        GROUP BY `language_id`
+        ORDER BY movieNum DESC
+    </select>
+
+</mapper>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description 电影语言接口
@@ -40,10 +41,27 @@ public class LanguageController {
     @ApiOperation("根据关键词查询电影语言")
     @ApiImplicitParams({
     })
-    public Result<List<Language>> getAllLanguage(@RequestParam("languageKey") String languageKey) {
+    public Result<List<Language>> getLanguageByKey(@RequestParam("languageKey") String languageKey) {
         List<Language> languageList = languageService.getLanguageByKey(languageKey);
         return Result.success(languageList, "查询成功！");
     }
+
+    /**
+     * @description: 查询最多电影使用的语言
+     * @author: YuanmingLiu
+     * @date: 2023/5/13 17:23
+     * @param: [limit]
+     * @return: com.lqyrmk.emovie.common.Result<java.util.List<com.lqyrmk.emovie.entity.Language>>
+     **/
+    @GetMapping("/most")
+    @ApiOperation("查询最多电影使用的语言")
+    @ApiImplicitParams({
+    })
+    public Result<List<Language>> getMostUsedLanguage(@RequestParam("limit") Integer limit) {
+        List<Language> languageList = languageService.getMostUsedLanguage(limit);
+        return Result.success(languageList, "查询成功");
+    }
+
 
 
 }

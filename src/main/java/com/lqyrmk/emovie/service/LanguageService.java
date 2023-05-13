@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lqyrmk.emovie.entity.Language;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description
@@ -20,4 +21,13 @@ public interface LanguageService extends IService<Language> {
      * @return: java.util.List<com.lqyrmk.emovie.entity.Language>
      **/
     List<Language> getLanguageByKey(String languageKey);
+
+    /**
+     * @description: 查询最多电影使用的语言
+     * @author: YuanmingLiu
+     * @date: 2023/5/13 17:22
+     * @param: [limit]
+     * @return: java.util.List<com.lqyrmk.emovie.entity.Language>
+     **/
+    List<Language> getMostUsedLanguage(Integer limit);
 }
