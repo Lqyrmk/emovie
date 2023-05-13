@@ -61,8 +61,9 @@ public class MovieController {
     @ApiOperation("根据电影名模糊查询电影")
     @ApiImplicitParams({
     })
-    public Result<List<String>> getMovieByNameKey(@RequestParam("movieNameKey") String movieNameKey) {
-        List<String> movieNameList = movieService.getMovieByNameKey(movieNameKey);
+    public Result<List<Movie>> getMovieByNameKey(@RequestParam("movieNameKey") String movieNameKey,
+                                                  @RequestParam("limit") Integer limit) {
+        List<Movie> movieNameList = movieService.getMovieByNameKey(movieNameKey, limit);
         return Result.success(movieNameList, "查询成功！");
     }
 

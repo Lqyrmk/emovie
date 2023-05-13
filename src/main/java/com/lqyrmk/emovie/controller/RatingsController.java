@@ -163,4 +163,15 @@ public class RatingsController {
         return Result.success(ratings, "已将对该电影的评分修改为：" + ratings.getRating());
     }
 
+    /* 放个SQL在这
+        UPDATE movie,
+        (
+            SELECT movie_id, AVG(rating) as `rating_avg`
+            FROM `ratings`
+            GROUP BY movie_id
+        ) r
+        SET movie.rating_avg = r.rating_avg
+        WHERE movie.movie_id = r.movie_id
+     **/
+
 }

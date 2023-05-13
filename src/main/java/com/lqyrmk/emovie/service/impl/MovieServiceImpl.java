@@ -115,23 +115,31 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
     }
 
     @Override
-    public List<String> getMovieByNameKey(String movieNameKey) {
+//    public List<String> getMovieByNameKey(String movieNameKey, Integer limit) {
+    public List<Movie> getMovieByNameKey(String movieNameKey, Integer limit) {
 
         // 模糊查询 按名称排序
         LambdaQueryWrapper<Movie> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(Movie::getTitle).like(Movie::getTitle, movieNameKey).orderByAsc(Movie::getTitle);
+        queryWrapper.select(Movie::getMovieId, Movie::getTitle)
+                .like(Movie::getTitle, movieNameKey)
+                .orderByAsc(Movie::getTitle);
 
-        // 分页，一次最多查出来10个
-        Page<Map<String, Object>> page = new Page<>(1, 10);
-        movieMapper.selectMapsPage(page, queryWrapper);
+        // 分页，指定一次最多查出来的数量
+//        Page<Map<String, Object>> page = new Page<>(1, limit);
+//        movieMapper.selectMapsPage(page, queryWrapper);
 
-        // 使用一个数组对查询出来的电影名进行存放
-        List<String> movieNameList = new ArrayList<>();
-        for (Map<String, Object> record : page.getRecords()) {
-            movieNameList.add((String) record.get("title"));
-        }
+//        // 使用一个数组对查询出来的电影名进行存放
+//        List<String> movieNameList = new ArrayList<>();
+//        for (Map<String, Object> record : page.getRecords()) {
+//            movieNameList.add((String) record.get("title"));
+//        }
 
-        return movieNameList;
+        // 分页，指定一次最多查出来的数量
+        Page<Movie> page = new Page<>(1, limit);
+        movieMapper.selectPage(page, queryWrapper);
+        List<Movie> movies = page.getRecords();
+
+        return movies;
     }
 
     @Override

@@ -62,7 +62,7 @@ public interface MovieService extends IService<Movie> {
      * @param: [movieNameKey]
      * @return: java.util.List<java.lang.String>
      **/
-    List<String> getMovieByNameKey(String movieNameKey);
+    List<Movie> getMovieByNameKey(String movieNameKey, Integer limit);
 
 
     /**
