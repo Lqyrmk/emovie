@@ -32,7 +32,7 @@ public class LanguageServiceImpl extends ServiceImpl<LanguageMapper, Language> i
     private MovieLanguageMapper movieLanguageMapper;
 
     @Override
-    public List<Language> getLanguageByKey(String languageKey) {
+    public List<Language> getLanguageByKey(String languageKey, Integer limit) {
 
         // 模糊查询 按名称排序
         // iso_639_1和语言名称都进行匹配
@@ -42,8 +42,8 @@ public class LanguageServiceImpl extends ServiceImpl<LanguageMapper, Language> i
                 .like(Language::getIso, languageKey)
                 .orderByAsc(Language::getLanguageName);;
 
-        // 分页，一次最多查出来8个
-        Page<Language> page = new Page<>(1, 8);
+        // 分页，指定一次最多查出来的数量
+        Page<Language> page = new Page<>(1, limit);
         languageMapper.selectPage(page, queryWrapper);
         List<Language> languageList = page.getRecords();
 

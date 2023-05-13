@@ -19,7 +19,7 @@ public interface LanguageService extends IService<Language> {
      * @param: [languageKey]
      * @return: java.util.List<com.lqyrmk.emovie.entity.Language>
      **/
-    List<Language> getLanguageByKey(String languageKey);
+    List<Language> getLanguageByKey(String languageKey, Integer limit);
 
     /**
      * @description: 查询最多电影使用的语言

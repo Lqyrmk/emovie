@@ -19,6 +19,6 @@ public interface CountryService extends IService<Country> {
      * @param: [countryKey]
      * @return: java.util.List<com.lqyrmk.emovie.entity.Country>
      **/
-    List<Country> getCountriesByKey(String countryKey);
+    List<Country> getCountriesByKey(String countryKey, Integer limit);
 
 }

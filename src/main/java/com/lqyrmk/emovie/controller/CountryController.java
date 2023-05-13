@@ -54,8 +54,9 @@ public class CountryController {
     @ApiOperation("根据关键词查询所有制片国家")
     @ApiImplicitParams({
     })
-    public Result<List<Country>> getCountriesByKey(@RequestParam("countryKey") String countryKey) {
-        List<Country> countries = countryService.getCountriesByKey(countryKey);
+    public Result<List<Country>> getCountriesByKey(@RequestParam("countryKey") String countryKey,
+                                                   @RequestParam("limit") Integer limit) {
+        List<Country> countries = countryService.getCountriesByKey(countryKey, limit);
         return Result.success(countries, "查询成功！");
     }
 

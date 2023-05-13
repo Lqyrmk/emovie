@@ -25,14 +25,14 @@ public class CountryServiceImpl extends ServiceImpl<CountryMapper, Country> impl
     private CountryMapper countryMapper;
 
     @Override
-    public List<Country> getCountriesByKey(String countryKey) {
+    public List<Country> getCountriesByKey(String countryKey, Integer limit) {
 
         // 模糊查询 按名称排序
         LambdaQueryWrapper<Country> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(Country::getCountryName, countryKey).orderByAsc(Country::getCountryName);;
 
-        // 分页，一次最多查出来8个
-        Page<Country> page = new Page<>(1, 8);
+        // 分页，指定一次最多查出来的数量
+        Page<Country> page = new Page<>(1, limit);
         countryMapper.selectPage(page, queryWrapper);
         List<Country> countries = page.getRecords();
 

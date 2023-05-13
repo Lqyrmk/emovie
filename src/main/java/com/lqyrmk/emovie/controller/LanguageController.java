@@ -41,8 +41,9 @@ public class LanguageController {
     @ApiOperation("根据关键词查询电影语言")
     @ApiImplicitParams({
     })
-    public Result<List<Language>> getLanguageByKey(@RequestParam("languageKey") String languageKey) {
-        List<Language> languageList = languageService.getLanguageByKey(languageKey);
+    public Result<List<Language>> getLanguageByKey(@RequestParam("languageKey") String languageKey,
+                                                   @RequestParam("limit") Integer limit) {
+        List<Language> languageList = languageService.getLanguageByKey(languageKey, limit);
         return Result.success(languageList, "查询成功！");
     }
 

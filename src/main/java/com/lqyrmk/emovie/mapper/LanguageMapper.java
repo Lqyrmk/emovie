@@ -17,16 +17,6 @@ import java.util.List;
 @Mapper
 public interface LanguageMapper extends BaseMapper<Language> {
 
-//    /**
-//     * @description: 根据关键词查询电影语言
-//     * @author: YuanmingLiu
-//     * @date: 2023/5/13 0:21
-//     * @param: [page, languageKey]
-//     * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.lqyrmk.emovie.entity.Language>
-//     **/
-//    Page<Language> getLanguageByKey(@Param("page") Page<Language> page,
-//                                    @Param("languageKey") String languageKey);
-
     /**
      * @description: 分步查询所有电影和电影制片国家信息的第三步
      * @author: YuanmingLiu
