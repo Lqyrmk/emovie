@@ -38,50 +38,13 @@ public class MovieGenreController {
 
     @PostMapping
     @ApiOperation(value = "添加电影到类目中")
-    public Result<Map<String, Object>> addMovieToGenres(@RequestParam("movieTitle") String movieTitle,
-                                                        @RequestParam("genreName") String genreName) {
-        // 查询电影
-        LambdaQueryWrapper<Movie> movieLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        movieLambdaQueryWrapper.eq(Movie::getTitle, movieTitle);
-        movieLambdaQueryWrapper.select(Movie::getMovieId, Movie::getTitle);
-        List<Map<String, Object>> movieList = movieService.listMaps(movieLambdaQueryWrapper);
-        System.out.println("movieList = " + movieList);
-
-        if (movieList.isEmpty()) {
-            return Result.error("该电影不存在");
-        }
-
-        // 查询类目
-        LambdaQueryWrapper<Genre> genreLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        genreLambdaQueryWrapper.eq(Genre::getGenreName, genreName);
-        Genre genre = genreService.getOne(genreLambdaQueryWrapper);
-
-        if (genre == null) {
-            return Result.error("该类目不存在");
-        }
-
-        // 查询该电影是否在类目中
-        LambdaQueryWrapper<MovieGenre> movieGenreLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        for (Map<String, Object> movie : movieList) {
-            movieGenreLambdaQueryWrapper
-                    .select(MovieGenre::getMovieId, MovieGenre::getGenreId)
-                    .eq(MovieGenre::getMovieId, (Long) movie.get("movie_id"))
-                    .eq(MovieGenre::getGenreId, genre.getGenreId());
-            if (movieGenreService.getOne(movieGenreLambdaQueryWrapper) != null) {
-                return Result.error("该电影已在所选类目中！");
-            }
-        }
-
+    public Result<Map<String, Object>> addMovieToGenres(@RequestBody MovieGenre movieGenre) {
         // 添加电影到类目中
-        MovieGenre movieGenre = new MovieGenre();
-        movieGenre.setMovieId((Long) movieList.get(0).get("movie_id"));
-        movieGenre.setGenreId(genre.getGenreId());
-
-        movieGenreService.save(movieGenre);
-//        movieGenreService.addMovieToGenre(movieGenre);
+        movieGenreService.addMovieToGenre(movieGenre);
 
         return Result.success(null, "添加成功！");
 
     }
+
 
 }

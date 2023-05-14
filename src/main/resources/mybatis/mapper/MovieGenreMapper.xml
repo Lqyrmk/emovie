@@ -20,9 +20,4 @@
         where movie_id = #{movieId}
     </select>
 
-    <!--void addMovieToGenre(MovieGenre movieGenre);-->
-    <insert id="addMovieToGenre">
-        insert into movie_genre (movie_id, genre_id) values (#{movieGenre.movieId}, #{movieGenre.genreId})
-    </insert>
-
 </mapper>

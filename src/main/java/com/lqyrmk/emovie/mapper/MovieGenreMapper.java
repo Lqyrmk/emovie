@@ -25,12 +25,5 @@ public interface MovieGenreMapper extends BaseMapper<MovieGenre> {
      **/
     List<MovieGenre> getAllMovieAndCountryByStep2(@Param("movieId") Long movieId);
 
-    /**
-     * @description: 添加电影到类目中
-     * @author: YuanmingLiu
-     * @date: 2023/5/10 21:05
-     * @param: [movieGenre]
-     * @return: void
-     **/
-    void addMovieToGenre(MovieGenre movieGenre);
+
 }
