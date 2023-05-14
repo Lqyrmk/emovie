@@ -35,7 +35,7 @@ public class CountryServiceImpl extends ServiceImpl<CountryMapper, Country> impl
 
         // 模糊查询 按名称排序
         LambdaQueryWrapper<Country> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.like(Country::getCountryName, countryKey).orderByAsc(Country::getCountryName);;
+        queryWrapper.like(Country::getCountryName, countryKey).orderByAsc(Country::getCountryName);
 
         // 分页，指定一次最多查出来的数量
         Page<Country> page = new Page<>(1, limit);

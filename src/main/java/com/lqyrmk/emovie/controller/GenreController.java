@@ -2,6 +2,7 @@ package com.lqyrmk.emovie.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lqyrmk.emovie.common.Result;
+import com.lqyrmk.emovie.entity.Country;
 import com.lqyrmk.emovie.entity.Genre;
 import com.lqyrmk.emovie.service.GenreService;
 import io.swagger.annotations.*;
@@ -23,16 +24,33 @@ import java.util.List;
 public class GenreController {
 
     @Autowired
-    private GenreService genresService;
+    private GenreService genreService;
 
+//    @GetMapping
+//    @ApiOperation("查询所有电影类目")
+//    @ApiImplicitParams({
+//
+//    })
+//    public Result<List<Genre>> getAllGenres() {
+//        List<Genre> list = genreService.list();
+//        return Result.success(list, "查询成功！");
+//    }
+
+    /**
+     * @description: 根据关键词查询类目
+     * @author: YuanmingLiu
+     * @date: 2023/5/14 13:06
+     * @param: [genreKey, limit]
+     * @return: com.lqyrmk.emovie.common.Result<java.util.List<com.lqyrmk.emovie.entity.Genre>>
+     **/
     @GetMapping
-    @ApiOperation("查询所有电影类目")
+    @ApiOperation("根据关键词查询类目")
     @ApiImplicitParams({
-
     })
-    public Result<List<Genre>> getAllGenres() {
-        List<Genre> list = genresService.list();
-        return Result.success(list, "查询成功！");
+    public Result<List<Genre>> getGenresByKey(@RequestParam("genreKey") String genreKey,
+                                                   @RequestParam("limit") Integer limit) {
+        List<Genre> genres = genreService.getGenresByKey(genreKey, limit);
+        return Result.success(genres, "查询成功！");
     }
 
     /**
@@ -51,11 +69,11 @@ public class GenreController {
         // 查询类目是否存在
         LambdaQueryWrapper<Genre> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Genre::getGenreName, genre.getGenreName());
-        if (genresService.getOne(queryWrapper) != null) {
+        if (genreService.getOne(queryWrapper) != null) {
             return Result.error("类目已存在，添加失败！");
         }
         // 类目不存在则保存类目
-        genresService.save(genre);
+        genreService.save(genre);
         return Result.success(genre, "添加成功！");
     }
 
