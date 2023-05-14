@@ -62,9 +62,9 @@ public class MovieController {
     @ApiImplicitParams({
     })
     public Result<List<Movie>> getMovieByNameKey(@RequestParam("movieNameKey") String movieNameKey,
-                                                  @RequestParam("limit") Integer limit) {
-        List<Movie> movieNameList = movieService.getMovieByNameKey(movieNameKey, limit);
-        return Result.success(movieNameList, "查询成功！");
+                                                  @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        List<Movie> movies = movieService.getMovieByNameKey(movieNameKey, limit);
+        return Result.success(movies, "查询成功！");
     }
 
 

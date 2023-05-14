@@ -41,10 +41,16 @@ public class LanguageController {
     @ApiOperation("根据关键词查询电影语言")
     @ApiImplicitParams({
     })
-    public Result<List<Language>> getLanguageByKey(@RequestParam("languageKey") String languageKey,
-                                                   @RequestParam("limit") Integer limit) {
-        List<Language> languageList = languageService.getLanguageByKey(languageKey, limit);
-        return Result.success(languageList, "查询成功！");
+    public Result<List<Language>> getLanguageByKey(@RequestParam(value = "languageKey", required = false) String languageKey,
+                                                   @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        // 传了key，包括empty
+        if (languageKey != null) {
+            return Result.success(languageService.getLanguageByKey(languageKey, limit), "查询成功！");
+        }
+        // 未传key
+        else {
+            return Result.success(languageService.list(), "查询成功！");
+        }
     }
 
     /**
@@ -58,9 +64,9 @@ public class LanguageController {
     @ApiOperation("查询最多电影使用的语言")
     @ApiImplicitParams({
     })
-    public Result<List<Language>> getMostUsedLanguage(@RequestParam("limit") Integer limit) {
+    public Result<List<Language>> getMostUsedLanguage(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
         List<Language> languageList = languageService.getMostUsedLanguage(limit);
-        return Result.success(languageList, "查询成功");
+        return Result.success(languageList, "查询成功！");
     }
 
 

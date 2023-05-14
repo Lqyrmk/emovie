@@ -55,10 +55,16 @@ public class CountryController {
     @ApiOperation("根据关键词查询所有制片国家")
     @ApiImplicitParams({
     })
-    public Result<List<Country>> getCountriesByKey(@RequestParam("countryKey") String countryKey,
-                                                   @RequestParam("limit") Integer limit) {
-        List<Country> countries = countryService.getCountriesByKey(countryKey, limit);
-        return Result.success(countries, "查询成功！");
+    public Result<List<Country>> getCountriesByKey(@RequestParam(value = "countryKey", required = false) String countryKey,
+                                                   @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        // 传了key，包括empty
+        if (countryKey != null) {
+            return Result.success(countryService.getCountriesByKey(countryKey, limit), "查询成功！");
+        }
+        // 未传key
+        else {
+            return Result.success(countryService.list(), "查询成功！");
+        }
     }
 
     /**
@@ -72,7 +78,7 @@ public class CountryController {
     @ApiOperation("查询最多电影涉及的制片国家")
     @ApiImplicitParams({
     })
-    public Result<List<Country>> getMostUsedLanguage(@RequestParam("limit") Integer limit) {
+    public Result<List<Country>> getMostUsedLanguage(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
         List<Country> countryList = countryService.getMostUsedCountry(limit);
         return Result.success(countryList, "查询成功");
     }

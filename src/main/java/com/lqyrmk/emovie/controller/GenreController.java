@@ -47,10 +47,16 @@ public class GenreController {
     @ApiOperation("根据关键词查询类目")
     @ApiImplicitParams({
     })
-    public Result<List<Genre>> getGenresByKey(@RequestParam("genreKey") String genreKey,
-                                                   @RequestParam("limit") Integer limit) {
-        List<Genre> genres = genreService.getGenresByKey(genreKey, limit);
-        return Result.success(genres, "查询成功！");
+    public Result<List<Genre>> getGenresByKey(@RequestParam(value = "genreKey", required = false) String genreKey,
+                                                   @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        // 传了key，包括empty
+        if (genreKey != null) {
+            return Result.success(genreService.getGenresByKey(genreKey, limit), "查询成功！");
+        }
+        // 未传key
+        else {
+            return Result.success(genreService.list(), "查询成功！");
+        }
     }
 
     /**
