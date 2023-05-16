@@ -28,12 +28,6 @@ import java.util.Map;
 public class MovieGenreController {
 
     @Autowired
-    private MovieService movieService;
-
-    @Autowired
-    private GenreService genreService;
-
-    @Autowired
     private MovieGenreService movieGenreService;
 
     @PostMapping

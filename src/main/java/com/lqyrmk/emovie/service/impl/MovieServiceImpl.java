@@ -27,14 +27,7 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
     private MovieMapper movieMapper;
 
     @Autowired
-    private GenreMapper genreMapper;
-
-    @Autowired
     private CountryMapper countryMapper;
-
-    @Autowired
-    private MovieCountryMapper movieCountryMapper;
-
 
     @Override
     public Country getAllMovies() {
@@ -140,6 +133,20 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
         List<Movie> movies = page.getRecords();
 
         return movies;
+    }
+
+    @Override
+    public Page<Movie> getPopularMovies(Integer current, Integer size) {
+        Page<Movie> page = new Page<>(current, size);
+        movieMapper.getPopularMovies(page);
+        return page;
+    }
+
+    @Override
+    public Page<Movie> getHotMovies(Integer current, Integer size) {
+        Page<Movie> page = new Page<>(current, size);
+        movieMapper.getHotMovies(page);
+        return page;
     }
 
     @Override

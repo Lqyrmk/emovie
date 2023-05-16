@@ -62,7 +62,7 @@ public class MovieController {
     @ApiImplicitParams({
     })
     public Result<List<Movie>> getMovieByNameKey(@RequestParam("movieNameKey") String movieNameKey,
-                                                  @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+                                                 @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
         List<Movie> movies = movieService.getMovieByNameKey(movieNameKey, limit);
         return Result.success(movies, "查询成功！");
     }
@@ -74,18 +74,50 @@ public class MovieController {
 
     })
     public Result<Page<Movie>> getMovieByPage(@RequestParam("current") Integer current,
-                                                      @RequestParam("size") Integer size,
-                                                      @RequestParam("movieNameKey") String movieNameKey,
-                                                      @RequestParam("countryName") String countryName,
-                                                      @RequestParam("genreName") String genreName,
-                                                      @RequestParam("languageIso") String languageIso,
-                                                      @RequestParam("year") String year,
-                                                      @RequestParam("rating") String rating) {
-//        Map<String, Object> moviesMap =
-        Page<Movie> moviesMap =
-                movieService.getMoviesByPage(current, size, movieNameKey, countryName,
-                genreName, languageIso, year, rating);
-        return Result.success(moviesMap, "查询成功！");
+                                              @RequestParam("size") Integer size,
+                                              @RequestParam(value = "movieNameKey", required = false) String movieNameKey,
+                                              @RequestParam(value = "countryName", required = false) String countryName,
+                                              @RequestParam(value = "genreName", required = false) String genreName,
+                                              @RequestParam(value = "languageIso", required = false) String languageIso,
+                                              @RequestParam(value = "year", required = false) String year,
+                                              @RequestParam(value = "rating", required = false) String rating,
+                                              @RequestParam(value = "status", defaultValue = "1") String status) {
+
+
+        log.info("******{}", status);
+
+        // 根据参数的不同查询不同的结果
+        if (movieNameKey != null && countryName != null && genreName != null
+                && languageIso != null && year != null && rating != null) {
+            // 执行筛选
+            log.info("***执行筛选***");
+//            Map<String, Object> moviesMap =
+            Page<Movie> moviesMap =
+                    movieService.getMoviesByPage(current, size, movieNameKey, countryName,
+                            genreName, languageIso, year, rating);
+            if (moviesMap != null) {
+                return Result.success(moviesMap, "筛选成功！");
+            }
+            return Result.error("查询失败，请重试！");
+        } else if ("1".equals(status)) {
+//        } else if ("1" == status) {
+            // 获取高分电影
+            log.info("***获取高分电影***");
+            Page<Movie> popularMovies = movieService.getPopularMovies(current, size);
+            if (popularMovies != null) {
+                return Result.success(popularMovies, "查询高分电影");
+            }
+            return Result.error("查询失败，请重试！");
+        }
+
+        // 获取热门电影
+        log.info("***获取热门电影***");
+        Page<Movie> hotMovies = movieService.getHotMovies(current, size);
+        if (hotMovies != null) {
+            return Result.success(hotMovies, "查询热门电影");
+        }
+        return Result.error("查询失败，请重试！");
+
     }
 
     /**

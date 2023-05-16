@@ -36,6 +36,24 @@ public interface MovieMapper extends BaseMapper<Movie> {
                                              @Param("rating") String rating);
 
     /**
+     * @description: 查询评分较高的电影
+     * @author: YuanmingLiu
+     * @date: 2023/5/17 0:06
+     * @param: [page]
+     * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.lqyrmk.emovie.entity.Movie>
+     **/
+    Page<Movie> getPopularMovies(@Param("page") Page<Movie> page);
+
+    /**
+     * @description: 查询热度较高的电影
+     * @author: YuanmingLiu
+     * @date: 2023/5/17 0:06
+     * @param: [page]
+     * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.lqyrmk.emovie.entity.Movie>
+     **/
+    Page<Movie> getHotMovies(@Param("page") Page<Movie> page);
+
+    /**
      * @description: 根据电影id分步查询电影和电影制片国家信息的第一步
      * @author: YuanmingLiu
      * @date: 2023/5/10 12:11

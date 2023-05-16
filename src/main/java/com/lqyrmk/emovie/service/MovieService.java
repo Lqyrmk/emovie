@@ -3,6 +3,7 @@ package com.lqyrmk.emovie.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.Country;
 import com.lqyrmk.emovie.entity.Movie;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,23 @@ public interface MovieService extends IService<Movie> {
      **/
     List<Movie> getMovieByNameKey(String movieNameKey, Integer limit);
 
+    /**
+     * @description: 获取高分电影
+     * @author: YuanmingLiu
+     * @date: 2023/5/17 0:01
+     * @param: [current, size]
+     * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.lqyrmk.emovie.entity.Movie>
+     **/
+    Page<Movie> getPopularMovies(Integer current, Integer size);
+
+    /**
+     * @description: 获取热门电影
+     * @author: YuanmingLiu
+     * @date: 2023/5/17 0:01
+     * @param: [current, size]
+     * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.lqyrmk.emovie.entity.Movie>
+     **/
+    Page<Movie> getHotMovies(Integer current, Integer size);
 
     /**
      * @description: 增加电影

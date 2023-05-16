@@ -91,6 +91,24 @@
         order by movie_id asc
     </select>
 
+    <!--Page<Movie> getPopularMovies(@Param("page") Page<Movie> page);-->
+    <select id="getPopularMovies" resultMap="allMovieAndCountryByStepResultMap">
+        select `movie_id`,`title`,`original_title`,`original_language`,`tagline`,`overview`,
+               `runtime`,`status`,`release_date`,`homepage`,`popularity`,`revenue`,`adult`,
+               `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`
+        from movie
+        order by `popularity` desc
+    </select>
+
+    <!--Page<Movie> getHotMovies(@Param("page") Page<Movie> page);-->
+    <select id="getHotMovies" resultMap="allMovieAndCountryByStepResultMap">
+        select `movie_id`,`title`,`original_title`,`original_language`,`tagline`,`overview`,
+               `runtime`,`status`,`release_date`,`homepage`,`popularity`,`revenue`,`adult`,
+               `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`
+        from movie
+        order by `release_date` desc
+    </select>
+
     <resultMap id="movieAndCountryByStepResultMap" type="Movie">
         <id column="movie_id" property="movieId"></id>
         <result column="title" property="title"></result>
