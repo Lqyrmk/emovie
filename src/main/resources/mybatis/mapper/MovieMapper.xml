@@ -106,7 +106,7 @@
                `runtime`,`status`,`release_date`,`homepage`,`popularity`,`revenue`,`adult`,
                `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`
         from movie
-        order by `release_date` desc
+        order by `rating_average` desc
     </select>
 
     <resultMap id="movieAndCountryByStepResultMap" type="Movie">
