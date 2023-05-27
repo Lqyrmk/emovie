@@ -15,13 +15,13 @@ import org.apache.ibatis.annotations.Param;
 public interface CountryMapper extends BaseMapper<Country> {
 
     /**
-     * @description: 分步查询所有电影和电影制片国家信息的第三步
+     * @description: 分步查询所有电影完整信息的第三步
      * @author: YuanmingLiu
      * @date: 2023/5/10 14:56
      * @param: [countryId, countryKey]
      * @return: com.lqyrmk.emovie.entity.Country
      **/
-    Country getAllMovieAndCountryByStep3(@Param("countryId") Long countryId);
+    Country getAllMovieByStep3(@Param("countryId") Long countryId);
 
     /**
      * @description: 根据电影id分步查询电影和电影制片国家信息的第三步

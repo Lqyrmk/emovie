@@ -27,13 +27,13 @@ public interface MovieLanguageMapper extends BaseMapper<MovieLanguage> {
     Page<Map<String, Object>> getMostUsedLanguage(@Param("page") Page<Map<String, Object>> page);
 
     /**
-     * @description: 分步查询所有电影和电影制片国家信息的第二步
+     * @description: 分步查询所有电影完整信息的第二步
      * @author: YuanmingLiu
      * @date: 2023/5/13 18:24
      * @param: [movieId]
      * @return: java.util.List<com.lqyrmk.emovie.entity.MovieLanguage>
      **/
-    List<MovieLanguage> getAllMovieAndCountryByStep2(@Param("movieId") Long movieId);
+    List<MovieLanguage> getAllMovieByStep2(@Param("movieId") Long movieId);
 
 
 }

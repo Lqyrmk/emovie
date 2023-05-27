@@ -18,12 +18,12 @@ import java.util.List;
 public interface LanguageMapper extends BaseMapper<Language> {
 
     /**
-     * @description: 分步查询所有电影和电影制片国家信息的第三步
+     * @description: 分步查询所有电影完整信息的第三步
      * @author: YuanmingLiu
      * @date: 2023/5/13 18:27
      * @param: [languageId]
      * @return: com.lqyrmk.emovie.entity.Language
      **/
-    Language getAllMovieAndCountryByStep3(@Param("languageId") Long languageId);
+    Language getAllMovieByStep3(@Param("languageId") Long languageId);
 
 }

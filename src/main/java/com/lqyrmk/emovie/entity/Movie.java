@@ -81,6 +81,9 @@ public class Movie {
     @ApiModelProperty("语言")
     private List<MovieLanguage> movieLanguageList;
 
+    @ApiModelProperty("演员表")
+    private List<Cast> castList;
+
     @ApiModelProperty("default")
     private String imdbId;
 

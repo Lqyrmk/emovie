@@ -18,12 +18,12 @@ public interface GenreMapper extends BaseMapper<Genre> {
     void addGenre(Genre genres);
 
     /**
-     * @description: 分步查询所有电影和电影制片国家信息的第三步
+     * @description: 分步查询所有电影完整信息的第三步
      * @author: YuanmingLiu
      * @date: 2023/5/10 20:25
      * @param: [genreId]
      * @return: com.lqyrmk.emovie.entity.Genre
      **/
-    Genre getAllMovieAndCountryByStep3(@Param("genreId") Long genreId);
+    Genre getAllMovieByStep3(@Param("genreId") Long genreId);
 
 }

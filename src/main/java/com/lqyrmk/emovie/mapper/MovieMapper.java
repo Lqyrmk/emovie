@@ -20,20 +20,20 @@ public interface MovieMapper extends BaseMapper<Movie> {
     void addMovie(Movie movie);
 
     /**
-     * @description: 分步查询所有电影和电影制片国家信息的第一步
+     * @description: 分步查询所有电影完整信息的第一步
      * @author: YuanmingLiu
      * @date: 2023/5/10 14:49
      * @param: [countryKey]
      * @return: java.util.List<com.lqyrmk.emovie.entity.Movie>
      **/
 //    List<Movie> getAllMovieAndCountryByStep1(@Param("countryKey") String countryKey);
-    Page<Movie> getAllMovieAndCountryByStep1(@Param("page") Page<Movie> page,
-                                             @Param("movieNameKey") String movieNameKey,
-                                             @Param("countryName") String countryName,
-                                             @Param("genreName") String genreName,
-                                             @Param("languageIso") String languageIso,
-                                             @Param("year") String year,
-                                             @Param("rating") String rating);
+    Page<Movie> getAllMovieByStep1(@Param("page") Page<Movie> page,
+                                   @Param("movieNameKey") String movieNameKey,
+                                   @Param("countryName") String countryName,
+                                   @Param("genreName") String genreName,
+                                   @Param("languageIso") String languageIso,
+                                   @Param("year") String year,
+                                   @Param("rating") String rating);
 
     /**
      * @description: 查询评分较高的电影

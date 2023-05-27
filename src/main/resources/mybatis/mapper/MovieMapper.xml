@@ -37,18 +37,21 @@
         <result column="poster_path" property="posterPath"></result>
         <result column="video" property="video"></result>
         <collection property="movieCountryList"
-                    select="com.lqyrmk.emovie.mapper.MovieCountryMapper.getAllMovieAndCountryByStep2"
+                    select="com.lqyrmk.emovie.mapper.MovieCountryMapper.getAllMovieByStep2"
                     column="movie_id"></collection>
         <collection property="movieGenreList"
-                    select="com.lqyrmk.emovie.mapper.MovieGenreMapper.getAllMovieAndCountryByStep2"
+                    select="com.lqyrmk.emovie.mapper.MovieGenreMapper.getAllMovieByStep2"
                     column="movie_id"></collection>
         <collection property="movieLanguageList"
-                    select="com.lqyrmk.emovie.mapper.MovieLanguageMapper.getAllMovieAndCountryByStep2"
+                    select="com.lqyrmk.emovie.mapper.MovieLanguageMapper.getAllMovieByStep2"
+                    column="movie_id"></collection>
+        <collection property="castList"
+                    select="com.lqyrmk.emovie.mapper.CastMapper.getAllMovieByStep2"
                     column="movie_id"></collection>
     </resultMap>
 
-    <!--List<Movie> getAllMovieAndCountryByStep1(@Param("countryKey") String countryKey);-->
-    <select id="getAllMovieAndCountryByStep1" resultMap="allMovieAndCountryByStepResultMap">
+    <!--List<Movie> getAllMovieByStep1(@Param("countryKey") String countryKey);-->
+    <select id="getAllMovieByStep1" resultMap="allMovieAndCountryByStepResultMap">
         select `movie_id`,`title`,`original_title`,`original_language`,`tagline`,`overview`,
                `runtime`,`status`,`release_date`,`homepage`,`popularity`,`revenue`,`adult`,
                `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`

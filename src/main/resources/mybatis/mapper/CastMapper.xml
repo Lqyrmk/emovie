@@ -5,4 +5,9 @@
 
 <mapper namespace="com.lqyrmk.emovie.mapper.CastMapper">
 
+    <!--List<Cast> getAllMovieByStep2(@Param("movieId") Long movieId);-->
+    <select id="getAllMovieByStep2" resultType="Cast">
+        select * from `cast` where movie_id = #{movieId}
+    </select>
+
 </mapper>

@@ -100,7 +100,6 @@ public class MovieController {
             }
             return Result.error("查询失败，请重试！");
         } else if ("1".equals(status)) {
-//        } else if ("1" == status) {
             // 获取高分电影
             log.info("***获取高分电影***");
             Page<Movie> popularMovies = movieService.getPopularMovies(current, size);

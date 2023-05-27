@@ -13,17 +13,17 @@
         ORDER BY movieNum DESC
     </select>
 
-    <resultMap id="allMovieAndCountryByStepResultMap" type="MovieCountry">
+    <resultMap id="allMovieByStepResultMap" type="MovieCountry">
         <id column="id" property="id"></id>
         <result column="movie_id" property="movieId"></result>
         <association property="country"
-                     select="com.lqyrmk.emovie.mapper.CountryMapper.getAllMovieAndCountryByStep3"
+                     select="com.lqyrmk.emovie.mapper.CountryMapper.getAllMovieByStep3"
                      column="country_id"></association>
     </resultMap>
 
-    <!--List<MovieCountry> getAllMovieAndCountryByStep2(@Param("movieId") Long movieId,
+    <!--List<MovieCountry> getAllMovieByStep2(@Param("movieId") Long movieId,
                                                     @Param("countryKey") String countryKey);-->
-    <select id="getAllMovieAndCountryByStep2" resultMap="allMovieAndCountryByStepResultMap">
+    <select id="getAllMovieByStep2" resultMap="allMovieByStepResultMap">
         select `id`, `movie_id`, `country_id`
         from movie_country
         where movie_id = #{movieId}

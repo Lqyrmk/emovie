@@ -28,13 +28,13 @@ public interface MovieCountryMapper extends BaseMapper<MovieCountry> {
     Page<Map<String, Object>> getMostUsedCountry(@Param("page") Page<Map<String, Object>> page);
 
     /**
-     * @description: 分步查询所有电影和电影制片国家信息的第二步
+     * @description: 分步查询所有电影完整信息的第二步
      * @author: YuanmingLiu
      * @date: 2023/5/10 14:57
      * @param: [movieId, countryKey]
      * @return: java.util.List<com.lqyrmk.emovie.entity.MovieCountry>
      **/
-    List<MovieCountry> getAllMovieAndCountryByStep2(@Param("movieId") Long movieId);
+    List<MovieCountry> getAllMovieByStep2(@Param("movieId") Long movieId);
 
     /**
      * @description: 根据电影id分步查询电影和电影制片国家信息的第二步

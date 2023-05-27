@@ -97,7 +97,7 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
                                        String year,
                                        String rating) {
         Page<Movie> page = new Page<>(current, size);
-        movieMapper.getAllMovieAndCountryByStep1(page, movieNameKey, countryName, genreName, languageIso, year, rating);
+        movieMapper.getAllMovieByStep1(page, movieNameKey, countryName, genreName, languageIso, year, rating);
 
 //        Map<String, Object> moviesMap = new HashMap<>();
 //        // 查询出的记录
