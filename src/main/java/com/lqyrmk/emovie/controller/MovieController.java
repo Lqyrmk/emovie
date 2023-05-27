@@ -130,44 +130,14 @@ public class MovieController {
     @PostMapping
     @ApiOperation(value = "添加电影")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "movie", value = "电影信息", required = true)
+            @ApiImplicitParam(name = "movieMap", value = "电影信息", required = true)
     })
     public Result<Map<String, Object>> addMovie(@RequestBody Map<String, Object> movieMap) {
 
-        // 获取制片国家id构成的list对象
-//        List<Long> countryIdList = (List<Long>) movieMap.get("countryIdList");
+        Map<String, Object> resMap = movieService.insertMovie(movieMap);
 
-        String countryIdListJsonStr = JSONObject.toJSONString(movieMap.get("countryIdList"));
-        List<Long> countryIdList = JSONObject.parseArray(countryIdListJsonStr, Long.class);
-//        System.out.println("countryIdList = " + countryIdList);
-//        countryIdList.forEach(System.out::println);
+        return Result.success(resMap, "电影添加成功");
 
-        // 获取movie对象
-        String movieJsonStr = JSONObject.toJSONString(movieMap.get("movie"));
-        Movie movie = JSONObject.parseObject(movieJsonStr, Movie.class);
-
-        System.out.println("movie = " + movie);
-        System.out.println("countryIdList = " + countryIdList);
-
-        // 添加电影信息
-        movieService.save(movie);
-        // 建立电影和国家的联系
-        List<MovieCountry> movieCountryList = new ArrayList<>();
-        for (Long countryId : countryIdList) {
-            MovieCountry movieCountry = new MovieCountry();
-            // 电影id
-            movieCountry.setMovieId(movie.getMovieId());
-            // 国家id
-            movieCountry.setCountryId(countryId);
-            movieCountryList.add(movieCountry);
-        }
-        movieCountryService.saveOrUpdateBatch(movieCountryList);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("countryIdList", countryIdList);
-        map.put("movie", movie);
-
-        return Result.success(map, "电影《" + movie.getTitle() + "》添加成功");
     }
 
 

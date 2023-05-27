@@ -1,10 +1,14 @@
 package com.lqyrmk.emovie.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lqyrmk.emovie.entity.*;
 import com.lqyrmk.emovie.mapper.*;
+import com.lqyrmk.emovie.service.CastService;
+import com.lqyrmk.emovie.service.MovieCountryService;
+import com.lqyrmk.emovie.service.MovieLanguageService;
 import com.lqyrmk.emovie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Auther: Limo
@@ -28,6 +33,18 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
 
     @Autowired
     private CountryMapper countryMapper;
+
+    @Autowired
+    private PersonMapper personMapper;
+
+    @Autowired
+    private MovieCountryService movieCountryService;
+
+    @Autowired
+    private MovieLanguageService movieLanguageService;
+
+    @Autowired
+    private CastService castService;
 
     @Override
     public Country getAllMovies() {
@@ -72,13 +89,13 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
     @Override
 //    public Map<String, Object> getMoviesByPage(Integer current,
     public Page<Movie> getMoviesByPage(Integer current,
-                                               Integer size,
-                                               String movieNameKey,
-                                               String countryName,
-                                               String genreName,
-                                               String languageIso,
-                                               String year,
-                                               String rating) {
+                                       Integer size,
+                                       String movieNameKey,
+                                       String countryName,
+                                       String genreName,
+                                       String languageIso,
+                                       String year,
+                                       String rating) {
         Page<Movie> page = new Page<>(current, size);
         movieMapper.getAllMovieAndCountryByStep1(page, movieNameKey, countryName, genreName, languageIso, year, rating);
 
@@ -149,9 +166,120 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
         return page;
     }
 
+    // 处理添加电影时的国家信息
+    private void handleInsertMovieByCountry(List<Long> countryIdList, Movie movie) {
+        // 判断是否为空
+        if (countryIdList != null) {
+            // 建立电影和国家的联系
+            List<MovieCountry> movieCountryList = new ArrayList<>();
+            countryIdList.forEach(countryId -> {
+                MovieCountry movieCountry = new MovieCountry();
+                // 电影id 国家id
+                movieCountry.setMovieId(movie.getMovieId());
+                movieCountry.setCountryId(countryId);
+                movieCountryList.add(movieCountry);
+            });
+            movieCountryService.saveBatch(movieCountryList);
+        } else {
+            // 为空则进行默认赋值，选第一个国家
+            MovieCountry movieCountry = new MovieCountry();
+            movieCountry.setMovieId(movie.getMovieId());
+            movieCountry.setCountryId(1L);
+            movieCountryService.save(movieCountry);
+        }
+    }
+
+    // 处理添加电影时的语言信息
+    private void handleInsertMovieByLanguage(List<Long> languageIdList, Movie movie) {
+        // 判断是否为空
+        if (languageIdList != null) {
+            // 建立电影和语言的联系
+            List<MovieLanguage> movieLanguageList = new ArrayList<>();
+            languageIdList.forEach(languageId -> {
+                MovieLanguage movieLanguage = new MovieLanguage();
+                // 电影id 语言id
+                movieLanguage.setMovieId(movie.getMovieId());
+                movieLanguage.setLanguageId(languageId);
+                movieLanguageList.add(movieLanguage);
+            });
+            movieLanguageService.saveBatch(movieLanguageList);
+        } else {
+            // 为空则进行默认赋值，选第一个语言
+            MovieLanguage movieLanguage = new MovieLanguage();
+            movieLanguage.setMovieId(movie.getMovieId());
+            movieLanguage.setLanguageId(1L);
+            movieLanguageService.save(movieLanguage);
+        }
+    }
+
+    // 处理添加电影时的演员信息
+    private Map<Long, String> handleInsertMovieByCast(List<Long> castIdList, List<String> newCastNameList, Movie movie) {
+
+        // 判断手动输入的演员姓名列表是否为空
+        if (newCastNameList != null) {
+            newCastNameList.forEach(castName -> {
+                // 先把手动输入的演员姓名添加到人员表中
+                Person person = new Person();
+                person.setCastName(castName);
+                personMapper.insert(person);
+                // 添加后获取到id，将其添加进id列表中
+                castIdList.add(person.getPersonId());
+            });
+        }
+
+        // 生成map
+        Map<Long, String> castIdNameMap = castIdList.stream().collect(Collectors.toMap(castId -> castId, castId -> personMapper.selectById(castId).getCastName(), (val1, val2) -> val1));
+
+        // 建立电影和演员的联系
+        List<Cast> casts = new ArrayList<>();
+        castIdNameMap.forEach((key, value) -> {
+            Cast cast = new Cast();
+            // 电影id 人员id
+            cast.setMovieId(movie.getMovieId());
+            cast.setPersonId(key);
+            cast.setCastName(value);
+            casts.add(cast);
+        });
+        castService.saveBatch(casts);
+
+        return castIdNameMap;
+    }
+
     @Override
-    public Movie insertMovie(Movie movie) {
-        movieMapper.addMovie(movie);
-        return movie;
+    public Map<String, Object> insertMovie(Map<String, Object> movieMap) {
+
+        // 获取movie对象
+        String movieJsonStr = JSONObject.toJSONString(movieMap.get("movie"));
+        Movie movie = JSONObject.parseObject(movieJsonStr, Movie.class);
+
+        // 添加电影信息
+        // 获得id
+        movieMapper.insert(movie);
+
+        // 获取制片国家id构成的list对象
+        List<Long> countryIdList = JSONObject.parseArray(JSONObject.toJSONString(movieMap.get("countryIdList")), Long.class);
+        handleInsertMovieByCountry(countryIdList, movie);
+
+        // 获取电影语言id构成的list对象
+        List<Long> languageIdList = JSONObject.parseArray(JSONObject.toJSONString(movieMap.get("languageIdList")), Long.class);
+        handleInsertMovieByLanguage(languageIdList, movie);
+
+        // 获取电影演员id构成的list对象
+        List<Long> castIdList = JSONObject.parseArray(JSONObject.toJSONString(movieMap.get("castIdList")), Long.class);
+        if (castIdList == null) {
+            castIdList = new ArrayList<>();
+        }
+        // 获取电影演员姓名构成的list对象
+        List<String> newCastNameList = (List<String>) movieMap.get("newCastNameList");
+
+        Map<Long, String> castIdNameMap = handleInsertMovieByCast(castIdList, newCastNameList, movie);
+
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("movieId", movie.getMovieId());
+        resMap.put("countryIdList", countryIdList);
+        resMap.put("languageIdList", languageIdList);
+        resMap.put("castIdNameMap", castIdNameMap);
+
+        return resMap;
     }
 }

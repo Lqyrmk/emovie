@@ -90,6 +90,6 @@ public interface MovieService extends IService<Movie> {
      * @param: [com.lqyrmk.emovie.entity.Movie]
      * @return: com.lqyrmk.emovie.entity.Movie
      */
-    Movie insertMovie(Movie movie);
+    Map<String, Object> insertMovie(Map<String, Object> movieMap);
 
 }
