@@ -84,6 +84,9 @@ public class Movie {
     @ApiModelProperty("演员表")
     private List<Cast> castList;
 
+    @ApiModelProperty("工作人员表")
+    private List<Crew> crewList;
+
     @ApiModelProperty("default")
     private String imdbId;
 

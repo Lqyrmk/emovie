@@ -7,7 +7,9 @@
 
     <!--List<Cast> getAllMovieByStep2(@Param("movieId") Long movieId);-->
     <select id="getAllMovieByStep2" resultType="Cast">
-        select * from `cast` where movie_id = #{movieId}
+        select `id` as castId, `cast_id` as castIdInMovie, `movie_id`, `character_in_movie`, `person_id`, `cast_name`, `cast_order`
+        from `cast`
+        where movie_id = #{movieId}
     </select>
 
 </mapper>

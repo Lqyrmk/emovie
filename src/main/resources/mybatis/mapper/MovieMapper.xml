@@ -48,6 +48,9 @@
         <collection property="castList"
                     select="com.lqyrmk.emovie.mapper.CastMapper.getAllMovieByStep2"
                     column="movie_id"></collection>
+        <collection property="crewList"
+                    select="com.lqyrmk.emovie.mapper.CrewMapper.getAllMovieByStep2"
+                    column="movie_id"></collection>
     </resultMap>
 
     <!--List<Movie> getAllMovieByStep1(@Param("countryKey") String countryKey);-->
