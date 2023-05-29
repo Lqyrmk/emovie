@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lqyrmk.emovie.entity.*;
 import com.lqyrmk.emovie.mapper.*;
-import com.lqyrmk.emovie.service.CastService;
-import com.lqyrmk.emovie.service.MovieCountryService;
-import com.lqyrmk.emovie.service.MovieLanguageService;
-import com.lqyrmk.emovie.service.MovieService;
+import com.lqyrmk.emovie.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +42,9 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
 
     @Autowired
     private CastService castService;
+
+    @Autowired
+    private CrewService crewService;
 
     @Override
     public Country getAllMovies() {
@@ -245,6 +245,41 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
         return castIdNameMap;
     }
 
+    // 处理添加电影时的导演信息
+    private Map<Long, String> handleInsertMovieByDirector(List<Long> directorIdList, List<String> newDirectorNameList, Movie movie) {
+
+        // 判断手动输入的导演姓名列表是否为空
+        if (newDirectorNameList != null) {
+            newDirectorNameList.forEach(directorName -> {
+                // 先把手动输入的导演姓名添加到人员表中
+                Person person = new Person();
+                person.setCastName(directorName);
+                personMapper.insert(person);
+                // 添加后获取到id，将其添加进id列表中
+                directorIdList.add(person.getPersonId());
+            });
+        }
+
+        // 生成map
+        Map<Long, String> crewIdNameMap = directorIdList.stream().collect(Collectors.toMap(directorId -> directorId, directorId -> personMapper.selectById(directorId).getCastName(), (val1, val2) -> val1));
+
+        // 建立电影和导演的联系
+        List<Crew> crews = new ArrayList<>();
+        crewIdNameMap.forEach((key, value) -> {
+            Crew crew = new Crew();
+            //
+            crew.setMovieId(movie.getMovieId());
+            crew.setDepartment("Directing");
+            crew.setJob("Director");
+            crew.setPersonId(key);
+            crew.setCrewName(value);
+            crews.add(crew);
+        });
+        crewService.saveBatch(crews);
+
+        return crewIdNameMap;
+    }
+
     @Override
     public Map<String, Object> insertMovie(Map<String, Object> movieMap) {
 
@@ -274,11 +309,23 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
 
         Map<Long, String> castIdNameMap = handleInsertMovieByCast(castIdList, newCastNameList, movie);
 
+
+        // 获取电影导演id构成的list对象
+        List<Long> directorIdList = JSONObject.parseArray(JSONObject.toJSONString(movieMap.get("directorIdList")), Long.class);
+        if (directorIdList == null) {
+            directorIdList = new ArrayList<>();
+        }
+        // 获取电影导演姓名构成的list对象
+        List<String> newDirectorNameList = (List<String>) movieMap.get("newDirectorNameList");
+
+        Map<Long, String> directorIdNameMap = handleInsertMovieByDirector(directorIdList, newDirectorNameList, movie);
+
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("movieId", movie.getMovieId());
         resMap.put("countryIdList", countryIdList);
         resMap.put("languageIdList", languageIdList);
         resMap.put("castIdNameMap", castIdNameMap);
+        resMap.put("directorIdNameMap", directorIdNameMap);
 
         return resMap;
     }
