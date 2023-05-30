@@ -54,14 +54,13 @@ public interface MovieMapper extends BaseMapper<Movie> {
     Page<Movie> getHotMovies(@Param("page") Page<Movie> page);
 
     /**
-     * @description: 根据电影id分步查询电影和电影制片国家信息的第一步
+     * @description: 根据电影id分步查询电影完整信息的第一步
      * @author: YuanmingLiu
      * @date: 2023/5/10 12:11
      * @param: [movieId]
      * @return: com.lqyrmk.emovie.entity.Movie
      **/
-    Movie getMovieAndCountryByStep1(@Param("movieId") Long movieId,
-                                    @Param("countryKey") String countryKey);
+    Movie getMovieByIdByStep1(@Param("movieId") Long movieId);
 
     /**
      * @description: 反向测试第三步

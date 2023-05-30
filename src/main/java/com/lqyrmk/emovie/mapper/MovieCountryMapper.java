@@ -37,14 +37,13 @@ public interface MovieCountryMapper extends BaseMapper<MovieCountry> {
     List<MovieCountry> getAllMovieByStep2(@Param("movieId") Long movieId);
 
     /**
-     * @description: 根据电影id分步查询电影和电影制片国家信息的第二步
+     * @description: 根据电影id分步查询电影完整信息的第二步
      * @author: YuanmingLiu
      * @date: 2023/5/10 12:22
      * @param: [movieId]
      * @return: java.util.List<com.lqyrmk.emovie.entity.MovieCountry>
      **/
-    List<MovieCountry> getMovieAndCountryByStep2(@Param("movieId") Long movieId,
-                                                 @Param("countryKey") String countryKey);
+    List<MovieCountry> getMovieByIdByStep2(@Param("movieId") Long movieId);
 
     /**
      * @description: 反向测试第二步

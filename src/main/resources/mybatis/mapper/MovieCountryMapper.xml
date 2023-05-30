@@ -29,17 +29,17 @@
         where movie_id = #{movieId}
     </select>
 
-    <resultMap id="movieAndCountryByStepResultMap" type="MovieCountry">
+    <resultMap id="movieByIdByStepResultMap" type="MovieCountry">
         <id column="id" property="id"></id>
         <result column="movie_id" property="movieId"></result>
         <association property="country"
-                     select="com.lqyrmk.emovie.mapper.CountryMapper.getMovieAndCountryByStep3"
-                     column="{countryId=country_id, countryKey=country_key}"></association>
+                     select="com.lqyrmk.emovie.mapper.CountryMapper.getMovieByIdByStep3"
+                     column="country_id"></association>
     </resultMap>
 
-    <!--List<MovieCountry> getMovieAndCountryByStep2(@Param("movieId") Long movieId);-->
-    <select id="getMovieAndCountryByStep2" resultMap="movieAndCountryByStepResultMap">
-        select `id`, `movie_id`, `country_id`, #{countryKey} as country_key
+    <!--List<MovieCountry> getMovieByIdByStep2(@Param("movieId") Long movieId);-->
+    <select id="getMovieByIdByStep2" resultMap="movieByIdByStepResultMap">
+        select `id`, `movie_id`, `country_id`
         from movie_country
         where movie_id = #{movieId}
     </select>

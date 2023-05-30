@@ -18,4 +18,11 @@
         where language_id = #{languageId}
     </select>
 
+    <!--Language getMovieByIdByStep3(@Param("languageId") Long languageId);-->
+    <select id="getMovieByIdByStep3" resultType="Language">
+        select language_id, `iso_639_1` as iso, language_name
+        from `language`
+        where language_id = #{languageId}
+    </select>
+
 </mapper>

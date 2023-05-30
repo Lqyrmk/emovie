@@ -26,4 +26,13 @@ public interface LanguageMapper extends BaseMapper<Language> {
      **/
     Language getAllMovieByStep3(@Param("languageId") Long languageId);
 
+    /**
+     * @description: 根据电影id分步查询电影完整信息的第三步
+     * @author: YuanmingLiu
+     * @date: 2023/5/30 21:16
+     * @param: [languageId]
+     * @return: com.lqyrmk.emovie.entity.Language
+     **/
+    Language getMovieByIdByStep3(@Param("languageId") Long languageId);
+
 }

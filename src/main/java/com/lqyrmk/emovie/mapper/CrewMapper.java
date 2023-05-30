@@ -24,4 +24,13 @@ public interface CrewMapper extends BaseMapper<Crew> {
      **/
     List<Crew> getAllMovieByStep2(@Param("movieId") Long movieId);
 
+    /**
+     * @description: 根据电影id分步查询电影完整信息的第二步
+     * @author: YuanmingLiu
+     * @date: 2023/5/30 21:20
+     * @param: [movieId]
+     * @return: java.util.List<com.lqyrmk.emovie.entity.Crew>
+     **/
+    List<Crew> getMovieByIdByStep2(@Param("movieId") Long movieId);
+
 }

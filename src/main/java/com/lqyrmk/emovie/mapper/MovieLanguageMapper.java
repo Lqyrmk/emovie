@@ -35,5 +35,14 @@ public interface MovieLanguageMapper extends BaseMapper<MovieLanguage> {
      **/
     List<MovieLanguage> getAllMovieByStep2(@Param("movieId") Long movieId);
 
+    /**
+     * @description: 根据电影id分步查询电影完整信息的第二步
+     * @author: YuanmingLiu
+     * @date: 2023/5/30 21:14
+     * @param: [movieId]
+     * @return: java.util.List<com.lqyrmk.emovie.entity.MovieLanguage>
+     **/
+    List<MovieLanguage> getMovieByIdByStep2(@Param("movieId") Long movieId);
+
 
 }

@@ -20,4 +20,19 @@
         where movie_id = #{movieId}
     </select>
 
+    <resultMap id="movieByIdByStepResultMap" type="MovieGenre">
+        <id column="id" property="id"></id>
+        <result column="movie_id" property="movieId"></result>
+        <association property="genre"
+                     select="com.lqyrmk.emovie.mapper.GenreMapper.getMovieByIdByStep3"
+                     column="genre_id"></association>
+    </resultMap>
+
+    <!--List<MovieGenre> getMovieByIdByStep2(@Param("movieId") Long movieId);-->
+    <select id="getMovieByIdByStep2" resultMap="movieByIdByStepResultMap">
+        select `id`, `movie_id`, `genre_id`
+        from movie_genre
+        where movie_id = #{movieId}
+    </select>
+
 </mapper>

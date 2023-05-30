@@ -20,7 +20,7 @@ public class MovieMapperTest {
 
     @Test
     void getMovieAndCountryByStep1() {
-        Movie movie = movieMapper.getMovieAndCountryByStep1(16L, "Finland");
+        Movie movie = movieMapper.getMovieByIdByStep1(16L);
         System.out.println("movie = " + movie);
     }
 }

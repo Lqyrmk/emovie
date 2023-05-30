@@ -121,7 +121,7 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
 
     @Override
     public Movie getMovieById(Long movieId) {
-        return movieMapper.getMovieAndCountryByStep1(movieId, "Finland");
+        return movieMapper.getMovieByIdByStep1(movieId);
     }
 
     @Override

@@ -12,4 +12,11 @@
         where movie_id = #{movieId}
     </select>
 
+    <!--List<Crew> getMovieByIdByStep2(@Param("movieId") Long movieId);-->
+    <select id="getMovieByIdByStep2" resultType="Crew">
+        select `id` as crewId, `movie_id`, `department`, `person_id`, `job`, `crew_name`
+        from crew
+        where movie_id = #{movieId}
+    </select>
+
 </mapper>

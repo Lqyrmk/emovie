@@ -25,5 +25,13 @@ public interface MovieGenreMapper extends BaseMapper<MovieGenre> {
      **/
     List<MovieGenre> getAllMovieByStep2(@Param("movieId") Long movieId);
 
+    /**
+     * @description: 根据电影id分步查询电影完整信息的第二步
+     * @author: YuanmingLiu
+     * @date: 2023/5/30 21:09
+     * @param: [movieId]
+     * @return: java.util.List<com.lqyrmk.emovie.entity.MovieGenre>
+     **/
+    List<MovieGenre> getMovieByIdByStep2(@Param("movieId") Long movieId);
 
 }

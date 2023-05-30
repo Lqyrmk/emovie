@@ -15,7 +15,7 @@
                 #{voteAverage}, #{voteCount});
     </insert>
 
-    <resultMap id="allMovieAndCountryByStepResultMap" type="Movie">
+    <resultMap id="allMovieByStepResultMap" type="Movie">
         <id column="movie_id" property="movieId"></id>
         <result column="title" property="title"></result>
         <result column="original_title" property="originalTitle"></result>
@@ -54,7 +54,7 @@
     </resultMap>
 
     <!--List<Movie> getAllMovieByStep1(@Param("countryKey") String countryKey);-->
-    <select id="getAllMovieByStep1" resultMap="allMovieAndCountryByStepResultMap">
+    <select id="getAllMovieByStep1" resultMap="allMovieByStepResultMap">
         select `movie_id`,`title`,`original_title`,`original_language`,`tagline`,`overview`,
                `runtime`,`status`,`release_date`,`homepage`,`popularity`,`revenue`,`adult`,
                `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`
@@ -98,7 +98,7 @@
     </select>
 
     <!--Page<Movie> getPopularMovies(@Param("page") Page<Movie> page);-->
-    <select id="getPopularMovies" resultMap="allMovieAndCountryByStepResultMap">
+    <select id="getPopularMovies" resultMap="allMovieByStepResultMap">
         select `movie_id`,`title`,`original_title`,`original_language`,`tagline`,`overview`,
                `runtime`,`status`,`release_date`,`homepage`,`popularity`,`revenue`,`adult`,
                `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`
@@ -107,7 +107,7 @@
     </select>
 
     <!--Page<Movie> getHotMovies(@Param("page") Page<Movie> page);-->
-    <select id="getHotMovies" resultMap="allMovieAndCountryByStepResultMap">
+    <select id="getHotMovies" resultMap="allMovieByStepResultMap">
         select `movie_id`,`title`,`original_title`,`original_language`,`tagline`,`overview`,
                `runtime`,`status`,`release_date`,`homepage`,`popularity`,`revenue`,`adult`,
                `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`
@@ -115,7 +115,7 @@
         order by `rating_average` desc
     </select>
 
-    <resultMap id="movieAndCountryByStepResultMap" type="Movie">
+    <resultMap id="movieByIdByStepResultMap" type="Movie">
         <id column="movie_id" property="movieId"></id>
         <result column="title" property="title"></result>
         <result column="original_title" property="originalTitle"></result>
@@ -132,17 +132,32 @@
         <result column="budget" property="budget"></result>
         <result column="vote_average" property="voteAverage"></result>
         <result column="vote_count" property="voteCount"></result>
+        <result column="rating_average" property="ratingAverage"></result>
         <result column="imdb_id" property="imdbId"></result>
         <result column="poster_path" property="posterPath"></result>
         <result column="video" property="video"></result>
         <collection property="movieCountryList"
-                    select="com.lqyrmk.emovie.mapper.MovieCountryMapper.getMovieAndCountryByStep2"
+                    select="com.lqyrmk.emovie.mapper.MovieCountryMapper.getMovieByIdByStep2"
+                    column="movie_id"></collection>
+        <collection property="movieGenreList"
+                    select="com.lqyrmk.emovie.mapper.MovieGenreMapper.getMovieByIdByStep2"
+                    column="movie_id"></collection>
+        <collection property="movieLanguageList"
+                    select="com.lqyrmk.emovie.mapper.MovieLanguageMapper.getMovieByIdByStep2"
+                    column="movie_id"></collection>
+        <collection property="castList"
+                    select="com.lqyrmk.emovie.mapper.CastMapper.getMovieByIdByStep2"
+                    column="movie_id"></collection>
+        <collection property="crewList"
+                    select="com.lqyrmk.emovie.mapper.CrewMapper.getMovieByIdByStep2"
                     column="movie_id"></collection>
     </resultMap>
 
-    <!--Movie getMovieAndCountryByStep1(@Param("movieId") Long movieId);-->
-    <select id="getMovieAndCountryByStep1" resultMap="movieAndCountryByStepResultMap">
-        select `movie_id`, `title`, #{countryKey} as country_key
+    <!--Movie getMovieByIdByStep1(@Param("movieId") Long movieId);-->
+    <select id="getMovieByIdByStep1" resultMap="movieByIdByStepResultMap">
+        select `movie_id`,`title`,`original_title`,`original_language`,`tagline`,`overview`,
+               `runtime`,`status`,`release_date`,`homepage`,`popularity`,`revenue`,`adult`,
+               `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`
         from movie
         where movie_id = #{movieId}
     </select>

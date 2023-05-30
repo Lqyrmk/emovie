@@ -5,19 +5,18 @@
 
 <mapper namespace="com.lqyrmk.emovie.mapper.CountryMapper">
 
-    <!--Country getAllMovieByStep3(@Param("countryId") Long countryId,
-                                      @Param("countryKey") String countryKey);-->
+    <!--Country getAllMovieByStep3(@Param("countryId") Long countryId);-->
     <select id="getAllMovieByStep3" resultType="Country">
         select country_id, `iso_3166_1` as iso, country_name
         from country
         where country_id = #{countryId}
     </select>
 
-    <!--Country getMovieAndCountryByStep3(@Param("countryId") Long countryId);-->
-    <select id="getMovieAndCountryByStep3" resultType="Country">
+    <!--Country getMovieByIdByStep3(@Param("countryId") Long countryId);-->
+    <select id="getMovieByIdByStep3" resultType="Country">
         select country_id, `iso_3166_1` as iso, country_name
         from country
-        where country_id = #{countryId} and country_name = #{countryKey}
+        where country_id = #{countryId}
     </select>
 
     <resultMap id="allCountryAndMovieByStepResultMap" type="Country">

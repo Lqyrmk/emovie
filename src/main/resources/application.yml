@@ -12,7 +12,7 @@ spring:
     url: jdbc:mysql://43.143.247.127:3306/emovie?characterEncoding=utf-8&userSSL=false
     username: root
 #    password: root
-    password:
+    password: xjBn+WSkT_1~+E#GtVG6spvKv#evdP1e
 
 mybatis-plus:
   configuration:
