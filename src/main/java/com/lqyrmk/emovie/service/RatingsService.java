@@ -38,5 +38,5 @@ public interface RatingsService extends IService<Ratings> {
      * @param: [ratings]
      * @return: void
      **/
-    void addRatings(Ratings ratings);
+    int addRatings(Ratings ratings);
 }
