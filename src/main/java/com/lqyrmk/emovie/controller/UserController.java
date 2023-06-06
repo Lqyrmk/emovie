@@ -32,6 +32,29 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * @description: 根据id查询用户
+     * @author: YuanmingLiu
+     * @date: 2023/6/6 17:53
+     * @param: []
+     * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.User>
+     **/
+    @GetMapping("/{userId}")
+    @ApiOperation(value = "根据id查询用户接口")
+    @ApiImplicitParams({
+    })
+    public Result<User> getUserById(@PathVariable("userId") Long userId) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(User::getUserId, userId)
+                .select(User::getUserId, User::getUsername, User::getEmail, User::getPhone, User::getGender);
+        User user = userService.getOne(queryWrapper);
+        if (user != null) {
+            return Result.success(user, "用户信息查询成功！");
+        }
+        return Result.error("用户信息查询失败！");
+
+    }
+
     @GetMapping
     @ApiOperation(value = "查询所有用户接口")
     @ApiImplicitParams({
@@ -142,7 +165,7 @@ public class UserController {
     })
     public Result<Map<String, Object>> modifyPassword(@RequestBody Map<String, Object> userMap) {
         // 用户名
-        String username= (String) userMap.get("username");
+        String username = (String) userMap.get("username");
         // 原密码
         String oldPassword = DigestUtils.md5DigestAsHex(((String) userMap.get("password")).getBytes());
         // 新密码
