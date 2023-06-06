@@ -47,7 +47,7 @@ public class RatingsController {
      * @author: YuanmingLiu
      * @date: 2023/5/11 19:57
      * @param: [userId]
-     * @return: com.lqyrmk.emovie.common.Result<java.util.Map<java.lang.String,java.lang.Object>>
+     * @return: com.lqyrmk.emovie.common.Result<java.util.Map < java.lang.String, java.lang.Object>>
      **/
     @GetMapping("/{userId}")
     @ApiOperation(value = "查询个人评分信息接口")
@@ -60,6 +60,29 @@ public class RatingsController {
         return Result.success(ratingsMap, "查询成功");
     }
 
+    /**
+     * @description: 查询用户对某电影的评分
+     * @author: YuanmingLiu
+     * @date: 2023/6/6 21:49
+     * @param: [userId, movieId]
+     * @return: com.lqyrmk.emovie.common.Result<java.lang.Integer>
+     **/
+    @GetMapping
+    @ApiOperation(value = "查询用户对某电影的评分接口")
+    @ApiImplicitParams({
+    })
+    public Result<Ratings> getRatingsByUserId(@RequestParam("userId") Long userId,
+                                              @RequestParam("movieId") Long movieId) {
+        LambdaQueryWrapper<Ratings> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Ratings::getUserId, userId)
+                .eq(Ratings::getMovieId, movieId)
+                .select(Ratings::getId, Ratings::getUserId, Ratings::getMovieId, Ratings::getRating);
+        Ratings ratings = ratingsService.getOne(queryWrapper);
+        if (ratings != null) {
+            return Result.success(ratings, "查询成功");
+        }
+        return Result.error("查询失败");
+    }
 
     /**
      * @description: 用户评分
