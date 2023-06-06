@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lqyrmk.emovie.entity.Ratings;
 import com.lqyrmk.emovie.mapper.RatingsMapper;
 
+import java.util.Map;
+
 /**
  * @Auther: Limo
  * @Date: 2023/3/31 23:28
@@ -39,4 +41,6 @@ public interface RatingsService extends IService<Ratings> {
      * @return: void
      **/
     int addRatings(Ratings ratings);
+
+    Map<String, Object> getRatingsByUserId(Long userId);
 }

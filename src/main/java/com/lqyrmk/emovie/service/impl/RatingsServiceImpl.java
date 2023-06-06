@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lqyrmk.emovie.common.MovieException;
 import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.Movie;
+import com.lqyrmk.emovie.entity.Person;
 import com.lqyrmk.emovie.entity.Ratings;
 import com.lqyrmk.emovie.entity.User;
 import com.lqyrmk.emovie.mapper.MovieMapper;
@@ -16,7 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: Limo
@@ -68,11 +72,12 @@ public class RatingsServiceImpl extends ServiceImpl<RatingsMapper, Ratings> impl
         }
 
         // 判断用户是否已对该电影评过分
-        LambdaUpdateWrapper<Ratings> ratingsLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        ratingsLambdaUpdateWrapper.eq(Ratings::getUserId, ratings.getUserId())
-                .eq(Ratings::getMovieId, ratings.getMovieId());
+        LambdaQueryWrapper<Ratings> ratingsLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        ratingsLambdaQueryWrapper.eq(Ratings::getUserId, ratings.getUserId())
+                .eq(Ratings::getMovieId, ratings.getMovieId())
+                .select(Ratings::getRating);
 
-        if (ratingsMapper.selectOne(ratingsLambdaUpdateWrapper) == null) {
+        if (ratingsMapper.selectOne(ratingsLambdaQueryWrapper) == null) {
             // 未参与过评分，添加评分记录
             int record = ratingsMapper.insert(ratings);
             log.info("***评分为{}...", ratings.getRating());
@@ -81,9 +86,49 @@ public class RatingsServiceImpl extends ServiceImpl<RatingsMapper, Ratings> impl
 
         // 参与过评分，更新评分记录
 //        throw new MovieException("用户已对该电影评过分，评分失败！");
-        ratingsLambdaUpdateWrapper.set(Ratings::getRating, ratings.getRating());
-        int record = ratingsMapper.update(null, ratingsLambdaUpdateWrapper);
+        Ratings updateRating = new Ratings();
+        updateRating.setRating(ratings.getRating());
+        int record = ratingsMapper.update(updateRating, ratingsLambdaQueryWrapper);
         log.info("***评分修改为{}...", ratings.getRating());
         return record;
+    }
+
+    @Override
+    public Map<String, Object> getRatingsByUserId(Long userId) {
+
+        LambdaQueryWrapper<Ratings> ratingsLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        ratingsLambdaQueryWrapper.eq(Ratings::getUserId, userId)
+                .select(Ratings::getUserId, Ratings::getMovieId, Ratings::getRating);
+        List<Ratings> ratingsList = ratingsMapper.selectList(ratingsLambdaQueryWrapper);
+
+        if (ratingsList.size() == 0) {
+            throw new MovieException("暂未对电影评分");
+        }
+
+        int ratingSum = 0;
+        Map<Long, Ratings> infoMap = new HashMap<>();
+
+        for (Ratings rating : ratingsList) {
+            // 计算评分分数总合
+            ratingSum += rating.getRating();
+
+            // 查询列表中的电影并存储起来
+            LambdaQueryWrapper<Movie> movieLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            movieLambdaQueryWrapper.eq(Movie::getMovieId, rating.getMovieId())
+                    .select(Movie::getMovieId, Movie::getTitle, Movie::getOriginalTitle, Movie::getRatingAverage, Movie::getReleaseDate);
+            Movie movie = movieMapper.selectOne(movieLambdaQueryWrapper);
+            rating.setMovie(movie);
+            infoMap.put(rating.getMovieId(), rating);
+        }
+
+        // 计算平均评分
+        double ratingAverage = ratingSum / ratingsList.size();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("ratingAverage", ratingAverage);
+        map.put("infoMap", infoMap);
+
+        return map;
+
     }
 }

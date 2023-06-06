@@ -55,27 +55,9 @@ public class RatingsController {
     })
     public Result<Map<String, Object>> getRatingsByUserId(@PathVariable Long userId) {
 
-        LambdaQueryWrapper<Ratings> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Ratings::getUserId, userId);
-        List<Ratings> ratingsList = ratingsService.list(queryWrapper);
+        Map<String, Object> ratingsMap = ratingsService.getRatingsByUserId(userId);
 
-        if (ratingsList.size() == 0) {
-            return Result.error("暂未对电影评分");
-        }
-
-        // 计算评分分数总合
-        int ratingSum = 0;
-        for (Ratings rating : ratingsList) {
-            ratingSum += rating.getRating();
-        }
-        // 计算平均评分
-        double ratingAverage = ratingSum / ratingsList.size();
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("ratingAverage", ratingAverage);
-        map.put("ratingsList", ratingsList);
-
-        return Result.success(map, "查询成功");
+        return Result.success(ratingsMap, "查询成功");
     }
 
 

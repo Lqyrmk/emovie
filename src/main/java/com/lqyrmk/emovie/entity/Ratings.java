@@ -26,8 +26,8 @@ public class Ratings {
     @ApiModelProperty("电影id")
     private Long movieId;
 
-//    @ApiModelProperty("电影")
-//    private Movie movie;
+    @ApiModelProperty("电影")
+    private Movie movie;
 
     @ApiModelProperty("评分")
     private Integer rating;
