@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lqyrmk.emovie.entity.*;
 import com.lqyrmk.emovie.mapper.*;
 import com.lqyrmk.emovie.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
  * @Description: MovieServiceImpl
  * @Version 1.0.0
  */
+@Slf4j
 @Service
 public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements MovieService {
 
@@ -45,6 +48,9 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
 
     @Autowired
     private CrewService crewService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public Country getAllMovies() {
@@ -328,5 +334,17 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
         resMap.put("directorIdNameMap", directorIdNameMap);
 
         return resMap;
+    }
+
+    @Override
+    public Page<Movie> getRecommendMovies(Long userId, Integer current, Integer size) {
+        Page<Movie> page = new Page<>(current, size);
+        List<Object> recommendMovieList = redisTemplate.opsForList().range("recommend:top_n_movie:user:" + userId, 0, -1);
+        Long[] ids = new Long[recommendMovieList.size()];
+        for (int i = 0; i < recommendMovieList.size(); i++) {
+            ids[i] = Long.parseLong(recommendMovieList.get(i).toString());
+        }
+        movieMapper.getRecommendMovies(page, ids);
+        return page;
     }
 }

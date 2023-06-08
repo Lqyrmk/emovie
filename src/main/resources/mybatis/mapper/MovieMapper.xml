@@ -45,12 +45,12 @@
         <collection property="movieLanguageList"
                     select="com.lqyrmk.emovie.mapper.MovieLanguageMapper.getAllMovieByStep2"
                     column="movie_id"></collection>
-        <collection property="castList"
-                    select="com.lqyrmk.emovie.mapper.CastMapper.getAllMovieByStep2"
-                    column="movie_id"></collection>
-        <collection property="crewList"
-                    select="com.lqyrmk.emovie.mapper.CrewMapper.getAllMovieByStep2"
-                    column="movie_id"></collection>
+<!--        <collection property="castList"-->
+<!--                    select="com.lqyrmk.emovie.mapper.CastMapper.getAllMovieByStep2"-->
+<!--                    column="movie_id"></collection>-->
+<!--        <collection property="crewList"-->
+<!--                    select="com.lqyrmk.emovie.mapper.CrewMapper.getAllMovieByStep2"-->
+<!--                    column="movie_id"></collection>-->
     </resultMap>
 
     <!--List<Movie> getAllMovieByStep1(@Param("countryKey") String countryKey);-->
@@ -113,6 +113,18 @@
                `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`
         from movie
         order by `rating_average` desc
+    </select>
+
+    <!--Page<Movie> getRecommendMovies(@Param("page") Page<Movie> page, @Param("movieIds") Long[] ids);-->
+    <select id="getRecommendMovies" resultMap="allMovieByStepResultMap">
+        select `movie_id`,`title`,`original_title`,`original_language`,`tagline`,`overview`,
+               `runtime`,`status`,`release_date`,`homepage`,`popularity`,`revenue`,`adult`,
+               `budget`,`vote_average`,`vote_count`,`rating_average`,`imdb_id`,`poster_path`,`video`
+        from movie
+        where movie_id in
+        <foreach collection="movieIds" item="movieId" separator="," open="(" close=")">
+            #{movieId}
+        </foreach>
     </select>
 
     <resultMap id="movieByIdByStepResultMap" type="Movie">

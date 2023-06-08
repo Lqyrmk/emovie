@@ -92,4 +92,12 @@ public interface MovieService extends IService<Movie> {
      */
     Map<String, Object> insertMovie(Map<String, Object> movieMap);
 
+    /**
+     * @description: 获取推荐电影
+     * @author: YuanmingLiu
+     * @date: 2023/6/8 19:51
+     * @param: [userId, current, size]
+     * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.lqyrmk.emovie.entity.Movie>
+     **/
+    Page<Movie> getRecommendMovies(Long userId, Integer current, Integer size);
 }

@@ -104,16 +104,24 @@ public class MovieController {
             log.info("***获取高分电影***");
             Page<Movie> popularMovies = movieService.getPopularMovies(current, size);
             if (popularMovies != null) {
-                return Result.success(popularMovies, "查询高分电影");
+                return Result.success(popularMovies, "查询高分电影成功");
+            }
+            return Result.error("查询失败，请重试！");
+        } else if ("2".equals(status)) {
+            // 获取热门电影
+            log.info("***获取热门电影***");
+            Page<Movie> hotMovies = movieService.getHotMovies(current, size);
+            if (hotMovies != null) {
+                return Result.success(hotMovies, "查询热门电影成功");
             }
             return Result.error("查询失败，请重试！");
         }
-
         // 获取热门电影
-        log.info("***获取热门电影***");
-        Page<Movie> hotMovies = movieService.getHotMovies(current, size);
-        if (hotMovies != null) {
-            return Result.success(hotMovies, "查询热门电影");
+        log.info("***获取推荐电影***");
+        Long userId = 1L;
+        Page<Movie> recommendMovies = movieService.getRecommendMovies(userId, current, size);
+        if (recommendMovies != null) {
+            return Result.success(recommendMovies, "查询推荐电影成功");
         }
         return Result.error("查询失败，请重试！");
 

@@ -63,6 +63,15 @@ public interface MovieMapper extends BaseMapper<Movie> {
     Movie getMovieByIdByStep1(@Param("movieId") Long movieId);
 
     /**
+     * @description: 查询推荐的电影
+     * @author: YuanmingLiu
+     * @date: 2023/6/8 20:02
+     * @param: [page, ids]
+     * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.lqyrmk.emovie.entity.Movie>
+     **/
+    Page<Movie> getRecommendMovies(@Param("page") Page<Movie> page, @Param("movieIds") Long[] ids);
+
+    /**
      * @description: 反向测试第三步
      * @author: YuanmingLiu
      * @date: 2023/5/10 15:43
