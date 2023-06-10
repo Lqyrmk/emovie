@@ -64,7 +64,7 @@
                 `title` like "%"#{movieNameKey}"%"
             </if>
             <if test="year != null and year != ''">
-                and `release_date` like "%"#{year}"%"
+                and `release_date` like ""#{year}"-%-%"
             </if>
             <if test="countryName != null and countryName != ''">
                 and `movie_id` in

@@ -119,8 +119,7 @@ public class MovieController {
         }
         // 获取热门电影
         log.info("***获取推荐电影***");
-        Long userId = 1L;
-        Page<Movie> recommendMovies = movieService.getRecommendMovies(userId, current, size);
+        Page<Movie> recommendMovies = movieService.getRecommendMovies(current, size);
         if (recommendMovies != null) {
             return Result.success(recommendMovies, "查询推荐电影成功");
         }

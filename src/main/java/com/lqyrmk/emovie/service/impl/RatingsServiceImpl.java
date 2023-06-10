@@ -5,16 +5,15 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lqyrmk.emovie.common.MovieException;
 import com.lqyrmk.emovie.common.Result;
-import com.lqyrmk.emovie.entity.Movie;
-import com.lqyrmk.emovie.entity.Person;
-import com.lqyrmk.emovie.entity.Ratings;
-import com.lqyrmk.emovie.entity.User;
+import com.lqyrmk.emovie.entity.*;
 import com.lqyrmk.emovie.mapper.MovieMapper;
 import com.lqyrmk.emovie.mapper.RatingsMapper;
 import com.lqyrmk.emovie.mapper.UserMapper;
 import com.lqyrmk.emovie.service.RatingsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -54,6 +53,13 @@ public class RatingsServiceImpl extends ServiceImpl<RatingsMapper, Ratings> impl
 
     @Override
     public int addRatings(Ratings ratings) {
+
+        // 获取SecurityContextHolder中的用户id
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        Long userId = loginUser.getUser().getUserId();
+
+        ratings.setUserId(userId);
 
         // 判断评分的用户是否存在
         LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();

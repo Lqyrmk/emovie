@@ -65,13 +65,13 @@ public class UserController {
 
     }
 
-    @GetMapping
-    @ApiOperation(value = "查询所有用户接口")
-    @ApiImplicitParams({
-    })
-    public Result<List<User>> getAllUsers() {
-        return Result.success(userService.list(null));
-    }
+//    @GetMapping
+//    @ApiOperation(value = "查询所有用户接口")
+//    @ApiImplicitParams({
+//    })
+//    public Result<List<User>> getAllUsers() {
+//        return Result.success(userService.list(null));
+//    }
 
     /**
      * @description: 用户登录
@@ -90,27 +90,6 @@ public class UserController {
         return userService.login(user);
     }
 
-//    public Result<User> login(HttpSession session, @RequestBody User user) {
-//        // 获取输入的用户名和密码
-//        String username = user.getUsername();
-//        String password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
-//
-//        // 根据用户名和密码查询用户信息
-//        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-//        queryWrapper.eq(User::getUsername, username).eq(User::getPassword, password);
-//
-//        User actualUser = userService.getOne(queryWrapper);
-//
-//        // 判断是否存在该用户
-//        if (actualUser == null) {
-//            return Result.error("用户名或密码错误");
-//        }
-//
-//        // 登录成功，将用户id存入session中
-//        session.setAttribute("loginUser", actualUser.getUserId());
-//        return Result.success(actualUser, "登录成功！");
-//    }
-
     /**
      * @description: 用户退出登录
      * @author: YuanmingLiu
@@ -123,12 +102,6 @@ public class UserController {
     public Result<String> logout() {
         return userService.logout();
     }
-
-//    public Result<String> logout(HttpSession session) {
-//        // 清空session中的登录用户
-//        session.removeAttribute("loginUser");
-//        return Result.success(null, "已退出登录");
-//    }
 
     /**
      * @description: 用户注册

@@ -99,5 +99,5 @@ public interface MovieService extends IService<Movie> {
      * @param: [userId, current, size]
      * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.lqyrmk.emovie.entity.Movie>
      **/
-    Page<Movie> getRecommendMovies(Long userId, Integer current, Integer size);
+    Page<Movie> getRecommendMovies(Integer current, Integer size);
 }

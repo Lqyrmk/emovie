@@ -10,6 +10,8 @@ import com.lqyrmk.emovie.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -337,9 +339,19 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
     }
 
     @Override
-    public Page<Movie> getRecommendMovies(Long userId, Integer current, Integer size) {
+    public Page<Movie> getRecommendMovies(Integer current, Integer size) {
+        // 获取SecurityContextHolder中的用户id
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        Long userId = loginUser.getUser().getUserId();
+
         Page<Movie> page = new Page<>(current, size);
-        List<Object> recommendMovieList = redisTemplate.opsForList().range("recommend:top_n_movie:user:" + userId, 0, -1);
+        String redisKey = "recommend:top_n_movie:user:" + userId;
+        List<Object> recommendMovieList = redisTemplate.opsForList().range(redisKey, 0, -1);
+        if (recommendMovieList.isEmpty()) {
+            redisKey = "recommend:top_n_movie:user:1";
+            recommendMovieList = redisTemplate.opsForList().range(redisKey, 0, -1);
+        }
         Long[] ids = new Long[recommendMovieList.size()];
         for (int i = 0; i < recommendMovieList.size(); i++) {
             ids[i] = Long.parseLong(recommendMovieList.get(i).toString());
