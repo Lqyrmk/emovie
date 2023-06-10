@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -135,6 +136,7 @@ public class MovieController {
      * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.Movie>
      */
     @PostMapping
+    @PreAuthorize("hasAuthority('system:manage')")
     @ApiOperation(value = "添加电影")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "movieMap", value = "电影信息", required = true)

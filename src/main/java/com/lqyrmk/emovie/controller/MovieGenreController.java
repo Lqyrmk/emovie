@@ -11,6 +11,7 @@ import com.lqyrmk.emovie.service.MovieService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class MovieGenreController {
     private MovieGenreService movieGenreService;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('system:manage')")
     @ApiOperation(value = "添加电影到类目中")
     public Result<Map<String, Object>> addMovieToGenres(@RequestBody MovieGenre movieGenre) {
         // 添加电影到类目中

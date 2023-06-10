@@ -1,5 +1,6 @@
 package com.lqyrmk.emovie.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 

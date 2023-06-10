@@ -3,6 +3,7 @@ package com.lqyrmk.emovie.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.lqyrmk.emovie.common.Result;
+import com.lqyrmk.emovie.entity.LoginUser;
 import com.lqyrmk.emovie.entity.Movie;
 import com.lqyrmk.emovie.entity.Ratings;
 import com.lqyrmk.emovie.entity.User;
@@ -16,6 +17,9 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -49,12 +53,16 @@ public class RatingsController {
      * @param: [userId]
      * @return: com.lqyrmk.emovie.common.Result<java.util.Map < java.lang.String, java.lang.Object>>
      **/
-    @GetMapping("/{userId}")
+    @GetMapping
+    @PreAuthorize("hasAuthority('system:use')")
     @ApiOperation(value = "查询个人评分信息接口")
     @ApiImplicitParams({
     })
-    public Result<Map<String, Object>> getRatingsByUserId(@PathVariable Long userId) {
-
+    public Result<Map<String, Object>> getRatingsByUserId() {
+        // 获取SecurityContextHolder中的用户id
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        Long userId = loginUser.getUser().getUserId();
         Map<String, Object> ratingsMap = ratingsService.getRatingsByUserId(userId);
 
         return Result.success(ratingsMap, "查询成功");
@@ -67,12 +75,18 @@ public class RatingsController {
      * @param: [userId, movieId]
      * @return: com.lqyrmk.emovie.common.Result<java.lang.Integer>
      **/
-    @GetMapping
+    @GetMapping("/{movieId}")
+    @PreAuthorize("hasAuthority('system:use')")
     @ApiOperation(value = "查询用户对某电影的评分接口")
     @ApiImplicitParams({
     })
-    public Result<Ratings> getRatingsByUserId(@RequestParam("userId") Long userId,
-                                              @RequestParam("movieId") Long movieId) {
+    public Result<Ratings> getRatingsByUserId(@PathVariable("movieId") Long movieId) {
+
+        // 获取SecurityContextHolder中的用户id
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        Long userId = loginUser.getUser().getUserId();
+
         LambdaQueryWrapper<Ratings> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Ratings::getUserId, userId)
                 .eq(Ratings::getMovieId, movieId)
@@ -92,6 +106,7 @@ public class RatingsController {
      * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.Ratings>
      */
     @PostMapping
+    @PreAuthorize("hasAuthority('system:use')")
     @ApiOperation(value = "用户评分接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ratings", value = "用户评分信息", required = true)

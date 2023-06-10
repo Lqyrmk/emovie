@@ -1,9 +1,11 @@
 package com.lqyrmk.emovie.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description
@@ -19,44 +21,35 @@ public interface UserService extends IService<User> {
      * @param: [username]
      * @return: com.lqyrmk.emovie.entity.User
      **/
-    User login(String username, String password);
+//    User login(String username, String password);
 
     /**
-     * @description:
+     * @description: 用户登录
      * @author: YuanmingLiu
-     * @date: 2023/3/19 0:49
-     * @param: [username]
-     * @return: com.lqyrmk.emovie.entity.User
+     * @date: 2023/6/9 15:13
+     * @param: [user]
+     * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.User>
      **/
-    boolean existsName(String username);
+    Result<Map<String, Object>> login(User user);
 
     /**
-     * @description:
+     * @description: 用户退出登录
      * @author: YuanmingLiu
-     * @date: 2023/3/19 0:49
-     * @param: [email]
-     * @return: com.lqyrmk.emovie.entity.User
+     * @date: 2023/6/9 15:16
+     * @param: []
+     * @return: com.lqyrmk.emovie.common.Result<java.lang.String>
      **/
-    boolean existsEmail(String email);
+    Result<String> logout();
+
 
     /**
-     * @description: 根据手机号查询用户
-     * @author: YuanmingLiu
-     * @date: 2023/3/18 17:56
-     * @param: [phone]
-     * @return: com.lqyrmk.emovie.entity.User
-     **/
-    boolean existsPhone(String phone);
-
-    /**
-     * @description: 添加用户
+     * @description用户注册
      * @author: YuanmingLiu
      * @date: 2023/3/18 17:33
      * @param: [user]
      * @return: void
      **/
-    User registerUser(User user);
-
+    User register(User user);
 
     void modifyPassword(String username, String newPassword);
 

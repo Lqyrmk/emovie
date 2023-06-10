@@ -8,6 +8,7 @@ import com.lqyrmk.emovie.service.GenreService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,6 +68,7 @@ public class GenreController {
      * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.Genre>
      */
     @PostMapping
+    @PreAuthorize("hasAuthority('system:manage')")
     @ApiOperation("添加电影类目")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "genre", value = "类目信息", required = true)
