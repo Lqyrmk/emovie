@@ -72,11 +72,11 @@ public interface MovieMapper extends BaseMapper<Movie> {
     Page<Movie> getRecommendMovies(@Param("page") Page<Movie> page, @Param("movieIds") Long[] ids);
 
     /**
-     * @description: 反向测试第三步
+     * @description: 更新电影评分
      * @author: YuanmingLiu
-     * @date: 2023/5/10 15:43
-     * @param: [countryKey]
-     * @return: com.lqyrmk.emovie.entity.Movie
+     * @date: 2023/6/11 0:19
+     * @param: [movieId]
+     * @return: void
      **/
-    Movie getAllCountryAndMovieByStep3(@Param("movieId") Long movieId);
+    void updateMovieRating(@Param("movieId") Long movieId);
 }

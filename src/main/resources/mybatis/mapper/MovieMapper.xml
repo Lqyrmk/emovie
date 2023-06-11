@@ -174,18 +174,16 @@
         where movie_id = #{movieId}
     </select>
 
-    <!--List<Movie> getAllCountryAndMovieByStep3(@Param("movieId") Long movieId);-->
-    <select id="getAllCountryAndMovieByStep3" resultType="Movie">
-        select `movie_id`,
-               `title`,
-               `original_title`,
-               `original_language`,
-               `tagline`,
-               `runtime`,
-               `release_date`,
-               `vote_average`
-        from movie
-        where movie_id = #{movieId}
-    </select>
+    <!--void updateMovieRating(@Param("movieId") Long movieId);-->
+    <update id="updateMovieRating">
+        update `movie`,
+        (
+            select movie_id, avg(rating) as `rating_average`
+            from `ratings`
+            group by movie_id
+        ) r
+        set movie.rating_average = r.rating_average
+        where movie.movie_id = r.movie_id
+    </update>
 
 </mapper>

@@ -16,31 +16,20 @@ import java.util.Map;
 public interface RatingsService extends IService<Ratings> {
 
     /**
-     * @description: 判断是否存在评分
-     * @author: Limo
-     * @date: 2023/4/1 12:52
-     * @param: [com.lqyrmk.emovie.entity.Ratings]
-     * @return: boolean
-     */
-    public boolean existsRating(Ratings ratings);
-
-    /**
-     * @description: 增加评分
-     * @author: Limo
-     * @date: 2023/4/1 12:53
-     * @param: [com.lqyrmk.emovie.entity.Ratings]
-     * @return: com.lqyrmk.emovie.entity.Ratings
-     */
-    public Ratings insertRating(Ratings ratings);
-
-    /**
      * @description: 新增评分
      * @author: YuanmingLiu
      * @date: 2023/5/11 19:30
      * @param: [ratings]
-     * @return: void
+     * @return: int
      **/
     int addRatings(Ratings ratings);
 
+    /**
+     * @description: 根据id查询评分
+     * @author: YuanmingLiu
+     * @date: 2023/6/11 0:07
+     * @param: [userId]
+     * @return: java.util.Map<java.lang.String,java.lang.Object>
+     **/
     Map<String, Object> getRatingsByUserId(Long userId);
 }

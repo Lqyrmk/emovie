@@ -52,6 +52,7 @@ public class MovieController {
     @GetMapping("/{movieId}")
     @ApiOperation("根据id查询电影")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "movieId", value = "电影id", required = true)
     })
     public Result<Movie> getMovieById(@PathVariable("movieId") Long movieId) {
         Movie movie = movieService.getMovieById(movieId);
@@ -61,6 +62,8 @@ public class MovieController {
     @GetMapping
     @ApiOperation("根据电影名模糊查询电影")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "movieNameKey", value = "电影搜索关键字", required = true),
+            @ApiImplicitParam(name = "limit", value = "显示数量", required = false)
     })
     public Result<List<Movie>> getMovieByNameKey(@RequestParam("movieNameKey") String movieNameKey,
                                                  @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
@@ -72,7 +75,15 @@ public class MovieController {
     @GetMapping("/page")
     @ApiOperation("根据信息分页查询电影")
     @ApiImplicitParams({
-
+            @ApiImplicitParam(name = "current", value = "当前页数", required = true),
+            @ApiImplicitParam(name = "size", value = "每页页数", required = true),
+            @ApiImplicitParam(name = "movieNameKey", value = "电影搜索关键字", required = false),
+            @ApiImplicitParam(name = "countryName", value = "国家名", required = false),
+            @ApiImplicitParam(name = "genreName", value = "类目名", required = false),
+            @ApiImplicitParam(name = "languageIso", value = "语言iso", required = false),
+            @ApiImplicitParam(name = "year", value = "年份", required = false),
+            @ApiImplicitParam(name = "rating", value = "评分", required = false),
+            @ApiImplicitParam(name = "status", value = "选择", required = false)
     })
     public Result<Page<Movie>> getMovieByPage(@RequestParam("current") Integer current,
                                               @RequestParam("size") Integer size,

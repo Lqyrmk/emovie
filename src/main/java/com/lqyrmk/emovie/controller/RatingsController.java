@@ -55,7 +55,7 @@ public class RatingsController {
      **/
     @GetMapping
     @PreAuthorize("hasAuthority('system:use')")
-    @ApiOperation(value = "查询个人评分信息接口")
+    @ApiOperation(value = "查询个人评分信息")
     @ApiImplicitParams({
     })
     public Result<Map<String, Object>> getRatingsByUserId() {
@@ -77,7 +77,7 @@ public class RatingsController {
      **/
     @GetMapping("/{movieId}")
     @PreAuthorize("hasAuthority('system:use')")
-    @ApiOperation(value = "查询用户对某电影的评分接口")
+    @ApiOperation(value = "查询用户对某电影的评分")
     @ApiImplicitParams({
     })
     public Result<Ratings> getRatingsByUserId(@PathVariable("movieId") Long movieId) {
@@ -107,7 +107,7 @@ public class RatingsController {
      */
     @PostMapping
     @PreAuthorize("hasAuthority('system:use')")
-    @ApiOperation(value = "用户评分接口")
+    @ApiOperation(value = "用户评分")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ratings", value = "用户评分信息", required = true)
     })
@@ -122,56 +122,5 @@ public class RatingsController {
         return Result.error("评分失败！");
     }
 
-//    /**
-//     * @description: 修改评分
-//     * @author: YuanmingLiu
-//     * @date: 2023/5/11 19:43
-//     * @param: [ratings]
-//     * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.Ratings>
-//     **/
-//    @PutMapping
-//    @ApiOperation(value = "修改评分接口")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "ratings", value = "用户评分信息", required = true)
-//    })
-//    public Result<Ratings> updateRatings(@RequestBody Ratings ratings) {
-//
-//        // 判断评分的用户是否存在
-//        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
-//        userLambdaQueryWrapper.select(User::getUserId).eq(User::getUserId, ratings.getUserId());
-//        if (userService.getOne(userLambdaQueryWrapper) != null) {
-//            return Result.error("用户不存在");
-//        }
-//
-//        // 判断被评分的电影是否存在
-//        LambdaQueryWrapper<Movie> movieLambdaQueryWrapper = new LambdaQueryWrapper<>();
-//        movieLambdaQueryWrapper.select(Movie::getMovieId).eq(Movie::getMovieId, ratings.getMovieId());
-//        if (movieService.getOne(movieLambdaQueryWrapper) != null) {
-//            return Result.error("电影不存在");
-//        }
-//
-//        // 修改评分记录
-////        LambdaUpdateWrapper<Ratings> updateWrapper = new LambdaUpdateWrapper<>();
-////        updateWrapper.eq(Ratings::getUserId, ratings.getUserId())
-////                .eq(Ratings::getMovieId, ratings.getMovieId())
-////                .set(Ratings::getRating, ratings.getRating());
-////        ratingsService.update(updateWrapper);
-//
-//
-//        ratingsService.updateById(ratings);
-//
-//        return Result.success(ratings, "已将对该电影的评分修改为：" + ratings.getRating());
-//    }
-
-    /* 放个SQL在这
-        UPDATE movie,
-        (
-            SELECT movie_id, AVG(rating) as `rating_avg`
-            FROM `ratings`
-            GROUP BY movie_id
-        ) r
-        SET movie.rating_avg = r.rating_avg
-        WHERE movie.movie_id = r.movie_id
-     **/
 
 }

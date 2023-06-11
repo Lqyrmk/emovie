@@ -47,6 +47,8 @@ public class GenreController {
     @GetMapping
     @ApiOperation("根据关键词查询类目")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "genreKey", value = "类目搜索关键字", required = false),
+            @ApiImplicitParam(name = "limit", value = "显示数量", required = false)
     })
     public Result<List<Genre>> getGenresByKey(@RequestParam(value = "genreKey", required = false) String genreKey,
                                                    @RequestParam(value = "limit", defaultValue = "10") Integer limit) {

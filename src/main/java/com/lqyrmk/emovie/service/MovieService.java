@@ -20,16 +20,6 @@ import java.util.Map;
 public interface MovieService extends IService<Movie> {
 
     /**
-     * @description: 查询所有电影
-     * @author: YuanmingLiu
-     * @date: 2023/5/10 12:51
-     * @param: []
-     * @return: java.util.List<com.lqyrmk.emovie.entity.Movie>
-     **/
-    Country getAllMovies();
-//    List<Movie> getAllMovies();
-
-    /**
      * @description: 根据信息分页查询电影
      * @author: YuanmingLiu
      * @date: 2023/5/13 19:38

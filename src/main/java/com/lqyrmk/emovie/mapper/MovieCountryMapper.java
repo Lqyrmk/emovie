@@ -45,13 +45,4 @@ public interface MovieCountryMapper extends BaseMapper<MovieCountry> {
      **/
     List<MovieCountry> getMovieByIdByStep2(@Param("movieId") Long movieId);
 
-    /**
-     * @description: 反向测试第二步
-     * @author: YuanmingLiu
-     * @date: 2023/5/10 15:48
-     * @param: [countryId]
-     * @return: java.util.List<com.lqyrmk.emovie.entity.MovieCountry>
-     **/
-    List<MovieCountry> getAllCountryAndMovieByStep2(@Param("countryId") String countryId);
-
 }

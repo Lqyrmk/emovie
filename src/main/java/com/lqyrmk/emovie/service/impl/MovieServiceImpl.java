@@ -55,46 +55,6 @@ public class MovieServiceImpl extends ServiceImpl<MovieMapper, Movie> implements
     private RedisTemplate redisTemplate;
 
     @Override
-    public Country getAllMovies() {
-//    public List<Movie> getAllMovies() {
-
-//        LambdaQueryWrapper<Country> countryLambdaQueryWrapper = new LambdaQueryWrapper<>();
-//        countryLambdaQueryWrapper
-//                .select(Country::getCountryId)
-//                .eq(Country::getCountryName, "Finland");
-//        Country country = countryMapper.selectOne(countryLambdaQueryWrapper);
-//
-//        LambdaQueryWrapper<MovieCountry> movieCountryLambdaQueryWrapper = new LambdaQueryWrapper<>();
-//        movieCountryLambdaQueryWrapper
-//                .select(MovieCountry::getMovieId, MovieCountry::getCountryId)
-//                .eq(MovieCountry::getCountryId, country.getCountryId());
-//
-//
-//        List<MovieCountry> movieCountries = movieCountryMapper.selectList(movieCountryLambdaQueryWrapper);
-//        System.out.println("movieCountries = " + movieCountries);
-//        List<Long> idList = new ArrayList<>();
-//        for (MovieCountry item : movieCountries) {
-//            idList.add(item.getMovieId());
-//        }
-//
-//        LambdaQueryWrapper<Movie> movieLambdaQueryWrapper = new LambdaQueryWrapper<>();
-//        movieLambdaQueryWrapper
-//                .select(Movie::getMovieId, Movie::getTitle, Movie::getOriginalTitle, Movie::getOriginalLanguage
-//                        , Movie::getTagline, Movie::getRuntime, Movie::getReleaseDate, Movie::getPopularity, Movie::getVoteAverage)
-//                .in(Movie::getMovieId, idList);
-//        List<Movie> movies = movieMapper.selectList(movieLambdaQueryWrapper);
-//        return movies;
-
-        // 反向测试
-        Country country = countryMapper.getAllCountryAndMovieByStep1("Finland");
-//        System.out.println("country = " + country);
-        return country;
-
-        // 正向测试
-//        return movieMapper.getAllMovieAndCountryByStep1("Finland");
-    }
-
-    @Override
 //    public Map<String, Object> getMoviesByPage(Integer current,
     public Page<Movie> getMoviesByPage(Integer current,
                                        Integer size,

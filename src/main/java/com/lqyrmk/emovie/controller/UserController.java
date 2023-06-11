@@ -44,7 +44,7 @@ public class UserController {
      * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.User>
      **/
     @GetMapping("/info")
-    @ApiOperation(value = "根据id查询用户接口")
+    @ApiOperation(value = "根据id查询用户")
     @ApiImplicitParams({
     })
     public Result<User> getUserById() {
@@ -81,7 +81,7 @@ public class UserController {
      * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.User>
      **/
     @PostMapping("/login")
-    @ApiOperation(value = "用户登录接口")
+    @ApiOperation(value = "用户登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user", value = "用户登录信息", required = true)
     })
@@ -98,7 +98,9 @@ public class UserController {
      * @return: com.lqyrmk.emovie.common.Result<java.lang.String>
      **/
     @PostMapping("/logout")
-    @ApiOperation(value = "用户退出登录接口")
+    @ApiOperation(value = "用户退出登录")
+    @ApiImplicitParams({
+    })
     public Result<String> logout() {
         return userService.logout();
     }
@@ -111,7 +113,7 @@ public class UserController {
      * @return: void
      **/
     @PostMapping("/register")
-    @ApiOperation(value = "用户注册接口")
+    @ApiOperation(value = "用户注册")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user", value = "用户注册信息", required = true)
     })
@@ -122,16 +124,16 @@ public class UserController {
 
 
     /**
-     * @description: 用户修改密码接口
+     * @description: 修改密码
      * @author: YuanmingLiu
      * @date: 2023/3/19 23:56
      * @param: [user, newPassword]
      * @return: com.lqyrmk.emovie.common.Result<com.lqyrmk.emovie.entity.User>
      **/
     @PutMapping("/modifyPwd")
-    @ApiOperation(value = "用户修改密码接口")
+    @ApiOperation(value = "用户修改密码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "user", value = "需要修改密码的用户信息", required = true)
+            @ApiImplicitParam(name = "userMap", value = "需要修改密码的用户信息", required = true)
     })
     public Result<Map<String, Object>> modifyPassword(@RequestBody Map<String, Object> userMap) {
         // 用户名

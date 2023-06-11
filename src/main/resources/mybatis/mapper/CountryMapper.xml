@@ -19,16 +19,4 @@
         where country_id = #{countryId}
     </select>
 
-    <resultMap id="allCountryAndMovieByStepResultMap" type="Country">
-        <id column="country_id" property="countryId"></id>
-        <collection property="movieCountryList"
-                    select="com.lqyrmk.emovie.mapper.MovieCountryMapper.getAllCountryAndMovieByStep2"
-                    column="country_id"></collection>
-    </resultMap>
-
-    <!--Country getAllCountryAndMovieByStep1(@Param("countryKey") String countryKey);-->
-    <select id="getAllCountryAndMovieByStep1" resultMap="allCountryAndMovieByStepResultMap">
-        select country_id from country where country_name = #{countryKey}
-    </select>
-
 </mapper>

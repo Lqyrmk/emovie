@@ -41,17 +41,6 @@ public class RatingsServiceImpl extends ServiceImpl<RatingsMapper, Ratings> impl
     private MovieMapper movieMapper;
 
     @Override
-    public boolean existsRating(Ratings ratings) {
-        return (ratingsMapper.getRatingByUserIdAndMovieId(ratings.getUserId(), ratings.getMovieId()) != null);
-    }
-
-    @Override
-    public Ratings insertRating(Ratings ratings) {
-        ratingsMapper.addRating(ratings);
-        return ratings;
-    }
-
-    @Override
     public int addRatings(Ratings ratings) {
 
         // 获取SecurityContextHolder中的用户id
@@ -87,6 +76,7 @@ public class RatingsServiceImpl extends ServiceImpl<RatingsMapper, Ratings> impl
             // 未参与过评分，添加评分记录
             int record = ratingsMapper.insert(ratings);
             log.info("***评分为{}...", ratings.getRating());
+            movieMapper.updateMovieRating(ratings.getMovieId());
             return record;
         }
 
@@ -96,6 +86,7 @@ public class RatingsServiceImpl extends ServiceImpl<RatingsMapper, Ratings> impl
         updateRating.setRating(ratings.getRating());
         int record = ratingsMapper.update(updateRating, ratingsLambdaQueryWrapper);
         log.info("***评分修改为{}...", ratings.getRating());
+        movieMapper.updateMovieRating(ratings.getMovieId());
         return record;
     }
 

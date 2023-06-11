@@ -34,6 +34,9 @@ public class MovieGenreController {
     @PostMapping
     @PreAuthorize("hasAuthority('system:manage')")
     @ApiOperation(value = "添加电影到类目中")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "movieGenre", value = "电影类目映射信息", required = true)
+    })
     public Result<Map<String, Object>> addMovieToGenres(@RequestBody MovieGenre movieGenre) {
         // 添加电影到类目中
         movieGenreService.addMovieToGenre(movieGenre);

@@ -4,6 +4,7 @@ import com.lqyrmk.emovie.common.Result;
 import com.lqyrmk.emovie.entity.Language;
 import com.lqyrmk.emovie.service.LanguageService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,8 @@ public class LanguageController {
     @GetMapping
     @ApiOperation("根据关键词查询电影语言")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "languageKey", value = "语言搜索关键字", required = false),
+            @ApiImplicitParam(name = "limit", value = "显示数量", required = false)
     })
     public Result<List<Language>> getLanguageByKey(@RequestParam(value = "languageKey", required = false) String languageKey,
                                                    @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
@@ -64,6 +67,7 @@ public class LanguageController {
     @GetMapping("/most")
     @ApiOperation("查询最多电影使用的语言")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "limit", value = "显示数量", required = false)
     })
     public Result<List<Language>> getMostUsedLanguage(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
         List<Language> languageList = languageService.getMostUsedLanguage(limit);

@@ -52,6 +52,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/login", "/user/register").anonymous()
                 // 不需要认证即可访问
                 .antMatchers("/movie/**", "/genre/**", "/language/**", "/country/**").permitAll()
+//                .antMatchers("/doc.html").permitAll()
+//                .antMatchers("/doc.html/**").permitAll()
+//                .antMatchers("/v3/api-docs").permitAll()
+                .antMatchers("/doc.html", "/doc.html/**", "/webjars/**", "/v2/**", "/swagger-resources",
+                        "/swagger-resources/**", "/swagger-ui.html", "/swagger-ui.html/**", "/swagger-ui/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证，登录后才能访问
                 .anyRequest().authenticated();
 

@@ -32,13 +32,4 @@ public interface CountryMapper extends BaseMapper<Country> {
      **/
     Country getMovieByIdByStep3(@Param("countryId") Long countryId);
 
-    /**
-     * @description: 反向测试第一步
-     * @author: YuanmingLiu
-     * @date: 2023/5/10 15:43
-     * @param: [countryKey]
-     * @return: com.lqyrmk.emovie.entity.Country
-     **/
-    Country getAllCountryAndMovieByStep1(@Param("countryKey") String countryKey);
-
 }

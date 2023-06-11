@@ -5,6 +5,7 @@ import com.lqyrmk.emovie.entity.Genre;
 import com.lqyrmk.emovie.entity.Person;
 import com.lqyrmk.emovie.service.PersonService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,8 @@ public class PersonController {
     @PreAuthorize("hasAuthority('system:manage')")
     @ApiOperation("根据关键词查询人员")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "personKey", value = "人员搜索关键字", required = false),
+            @ApiImplicitParam(name = "limit", value = "显示数量", required = false)
     })
     public Result<List<Person>> getPersonByKey(@RequestParam(value = "personKey", required = false) String personKey,
                                                @RequestParam(value = "limit", defaultValue = "10") Integer limit) {

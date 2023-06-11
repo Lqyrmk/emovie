@@ -5,6 +5,7 @@ import com.lqyrmk.emovie.entity.Country;
 import com.lqyrmk.emovie.entity.Language;
 import com.lqyrmk.emovie.service.CountryService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,8 @@ public class CountryController {
     @GetMapping
     @ApiOperation("根据关键词查询所有制片国家")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "countryKey", value = "国家搜索关键字", required = false),
+            @ApiImplicitParam(name = "limit", value = "显示数量", required = false)
     })
     public Result<List<Country>> getCountriesByKey(@RequestParam(value = "countryKey", required = false) String countryKey,
                                                    @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
@@ -78,6 +81,7 @@ public class CountryController {
     @GetMapping("/most")
     @ApiOperation("查询最多电影涉及的制片国家")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "limit", value = "显示数量", required = false)
     })
     public Result<List<Country>> getMostUsedLanguage(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
         List<Country> countryList = countryService.getMostUsedCountry(limit);
