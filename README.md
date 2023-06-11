@@ -4,6 +4,8 @@
 
 This is the back-end of the e-movie project.
 
+The project has been developed at present.
+
 ## Languages and Tools:
 
   <p align="left" height="10px">
