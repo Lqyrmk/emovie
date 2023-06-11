@@ -1,6 +1,7 @@
 package com.lqyrmk.emovie.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lqyrmk.emovie.common.MovieException;
 import com.lqyrmk.emovie.common.Result;
@@ -20,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import javax.management.relation.Role;
 import java.util.Arrays;
@@ -133,13 +135,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public void modifyPassword(String username, String newPassword) {
-        userMapper.updatePassword(username, newPassword);
-    }
+    public int modifyPassword(Map<String, Object> userMap) {
+        // 用户名
+        String username = (String) userMap.get("username");
 
-    @Override
-    public List<User> findAll() {
-        return userMapper.getAll();
+        // 根据用户名和密码查询用户信息
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, username);
+
+        User user = userMapper.selectOne(queryWrapper);
+
+        // 判断输入的用户名或密码是否正确
+        if (user == null) {
+            throw new MovieException("用户名或密码错误");
+        }
+
+        // 输入的明文原密码
+        String oldPassword = (String) userMap.get("password");
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new MovieException("用户名或密码错误");
+        }
+        // 输入的密文新密码
+        String newPassword = passwordEncoder.encode((String) userMap.get("newPassword"));
+
+        // 修改密码
+        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(User::getUsername, username).set(User::getPassword, newPassword);
+        return userMapper.update(null, updateWrapper);
     }
 
 }

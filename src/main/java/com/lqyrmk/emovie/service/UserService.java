@@ -43,7 +43,7 @@ public interface UserService extends IService<User> {
 
 
     /**
-     * @description用户注册
+     * @description: 用户注册
      * @author: YuanmingLiu
      * @date: 2023/3/18 17:33
      * @param: [user]
@@ -51,7 +51,13 @@ public interface UserService extends IService<User> {
      **/
     User register(User user);
 
-    void modifyPassword(String username, String newPassword);
+    /**
+     * @description: 修改密码
+     * @author: YuanmingLiu
+     * @date: 2023/3/18 17:33
+     * @param: [username, newPassword]
+     * @return: void
+     **/
+    int modifyPassword(Map<String, Object> userMap);
 
-    List<User> findAll();
 }

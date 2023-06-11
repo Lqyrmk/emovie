@@ -136,28 +136,10 @@ public class UserController {
             @ApiImplicitParam(name = "userMap", value = "需要修改密码的用户信息", required = true)
     })
     public Result<Map<String, Object>> modifyPassword(@RequestBody Map<String, Object> userMap) {
-        // 用户名
-        String username = (String) userMap.get("username");
-        // 原密码
-        String oldPassword = DigestUtils.md5DigestAsHex(((String) userMap.get("password")).getBytes());
-        // 新密码
-        String newPassword = DigestUtils.md5DigestAsHex(((String) userMap.get("newPassword")).getBytes());
-
-        // 根据用户名和密码查询用户信息
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getUsername, username).eq(User::getPassword, oldPassword);
-
-        // 判断输入的用户名或密码是否正确
-        if (userService.getOne(queryWrapper) == null) {
-            return Result.error("用户名或密码错误");
+        if (userService.modifyPassword(userMap) > 0) {
+            return Result.success(null, "密码修改成功！");
         }
-
-        // 修改密码
-        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(User::getUsername, username).eq(User::getPassword, oldPassword)
-                .set(User::getPassword, newPassword);
-        userService.update(updateWrapper);
-        return Result.success(null, "密码修改成功！");
+        return Result.error("修改失败！");
     }
 
 
